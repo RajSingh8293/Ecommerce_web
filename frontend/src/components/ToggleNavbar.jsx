@@ -11,15 +11,18 @@ import { useState } from 'react';
 import { json, Link, NavLink, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { logoutUser } from '../store/slices/userSlice';
 
 const ToggleNavbar = () => {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const [show, setShow] = useState(false);
-    const user = JSON.parse(localStorage.getItem("user"))
-
+    const { user, isAuthenticated } = useSelector((state) => state.user)
     const toggleDrawer = (newOpen) => () => {
         setShow(newOpen);
     };
+
     const menuLinks = [
         {
             name: "Home",
@@ -51,43 +54,21 @@ const ToggleNavbar = () => {
     };
 
 
-    let axiosConfig = {
-        withCredentials: true,
+
+    const logoutUserHandler = async () => {
+        dispatch(logoutUser())
     }
 
-    const logoutUser = async () => {
-        try {
-            const { data } = await axios.get(
-                // `${import.meta.env.VITE_REACT_APP_API_BASE_UR}/api/v1/user/register`,
-                `http://localhost:7676/api/v1/user/logout`,
-                axiosConfig,
-            )
-            console.log(data?.user);
-            if (data.success) {
-                toast.success(data.message)
-                localStorage.clear()
-                navigate('/')
-            }
 
-        } catch (error) {
-            toast.error(error?.response?.data?.message)
-            console.log(error);
-
-        }
-
-
-    }
     return (
         <div>
             <Box sx={{ width: 250 }} className="bg-gray-800 h-[100vh]" role="presentation" onClick={toggleDrawer(false)}>
-
-
 
                 <List>
                     <ListItem>
                         <ListItemButton>
                             <div>
-                                <h1 className="text-3xl font-bold text-orange-500">
+                                <h1 className="text-3xl font-bold text-[tomato]">
                                     <Link to='/'>LearnEcom</Link>
                                 </h1>
                             </div>
@@ -97,22 +78,28 @@ const ToggleNavbar = () => {
                     {menuLinks.map((text, index) => (
                         <ListItem key={index} >
                             <ListItemButton>
-                                <NavLink to={text?.link} className="text-white">{text?.name}</NavLink>
+                                <NavLink to={text?.link} className="navLinks  text-white">{text?.name}</NavLink>
                             </ListItemButton>
                         </ListItem>
                     ))}
+
+                    {isAuthenticated && user?.role === "admin" && <ListItem >
+                        <ListItemButton>
+                            <NavLink to="/dashboard" className="navLinks text-white">Dashboard</NavLink>
+                        </ListItemButton>
+                    </ListItem>}
                     {user ?
                         ""
                         :
                         <>
                             <ListItem >
                                 <ListItemButton>
-                                    <NavLink to="/login" className="text-white">Login</NavLink>
+                                    <NavLink to="/login" className="navLinks text-white">Login</NavLink>
                                 </ListItemButton>
                             </ListItem>
                             <ListItem >
                                 <ListItemButton>
-                                    <NavLink to="/register" className="text-white">register</NavLink>
+                                    <NavLink to="/register" className="navLinks text-white">register</NavLink>
                                 </ListItemButton>
                             </ListItem>
                         </>
@@ -129,9 +116,21 @@ const ToggleNavbar = () => {
                                     aria-haspopup="true"
                                     aria-expanded={open ? 'true' : undefined}
                                 >
-                                    <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+                                    {user && <Avatar
+                                        // onClick={() => handleClick(!open)} 
+                                        onClick={handleClick}
+                                        className="capitalize" sx={{ width: 32, height: 32, backgroundColor: "tomato", color: "white", fontWeight: "bold" }}>
+
+                                        {
+                                            user?.avtar?.url ?
+                                                <img className="w-full h-full" src={user?.avtar?.url} alt="" />
+                                                :
+                                                user?.username?.slice(0, 1)
+                                        }
+                                    </Avatar>}
                                 </IconButton>
                             </ListItem>
+
 
                             <Menu
                                 // anchorEl={anchorEl}
@@ -167,8 +166,7 @@ const ToggleNavbar = () => {
                                         },
                                     },
                                 }}
-                            // transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                            // anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+
                             >
                                 <MenuItem onClick={handleClose}>
                                     <Avatar /> <NavLink to='/profile'>Profile</NavLink>
@@ -186,7 +184,7 @@ const ToggleNavbar = () => {
 
                                 <MenuItem onClick={handleClose}>
 
-                                    <button onClick={logoutUser} className='flex items-center'>
+                                    <button onClick={logoutUserHandler} className='flex items-center'>
                                         <ListItemIcon >
                                             <LogoutIcon fontSize="small" />
                                         </ListItemIcon>

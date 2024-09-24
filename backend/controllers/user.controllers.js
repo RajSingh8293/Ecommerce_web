@@ -119,6 +119,67 @@ export const loginUser = async (req, res) => {
     });
   }
 };
+// login Admin
+export const loginAdmin = async (req, res) => {
+  const { email, password } = req.body;
+  if (!password) {
+    return res
+      .status(404)
+      .json({ success: false, message: "Password is required !" });
+  }
+  if (!email) {
+    return res
+      .status(404)
+      .json({ success: false, message: "Email is required !" });
+  }
+
+  try {
+    const findAdmin = await User.findOne({ email });
+    if (!findAdmin) {
+      res.status(400).send({
+        success: false,
+        message: "User does not exists",
+      });
+    }
+    if (findAdmin?.role !== "admin") {
+      res.status(400).send({
+        success: false,
+        message: "Not authorized",
+      });
+    }
+
+    const isMatch = comparePassword(password, findAdmin.password);
+    if (!isMatch) {
+      res.status(400).send({
+        success: false,
+        message: "Invalid credentials !",
+      });
+    }
+
+    const token = authToken(findAdmin._id);
+
+    const options = {
+      httpOnly: true,
+      secure: true,
+    };
+    const { password: pass, ...rest } = findAdmin._doc; // hide password
+    res
+      .status(200)
+      .cookie("token", token, { maxAge: 1 * 24 * 60 * 60 * 1000 }, options)
+      .json({
+        success: true,
+        message: "Logged in successfully",
+        user: rest,
+        token,
+      });
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      message: "Error with login",
+      error,
+    });
+  }
+};
 
 // logout user
 export const logoutUser = async (req, res) => {
@@ -242,6 +303,61 @@ export const deleteProfile = async (req, res) => {
   }
 };
 
+// save address
+export const saveAddress = async (req, res) => {
+  const user = req.user;
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      user._id,
+      {
+        address: req?.body?.address,
+      },
+      {
+        new: true,
+      }
+    );
+    res.status(200).json({
+      success: true,
+      message: "Address update successfully",
+      updatedUser,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Something wrong with save address",
+      error,
+    });
+  }
+};
+export const updateUserRole = async (req, res) => {
+  const { role } = req.body;
+  const findUser = await User.findById(req.params.id);
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      findUser,
+      {
+        role: role,
+      },
+      {
+        new: true,
+      }
+    );
+    res.status(200).json({
+      success: true,
+      message: "Update user role successfully",
+      updatedUser,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Something wrong with save address",
+      error,
+    });
+  }
+};
+
 // update profile image
 export const updateProfileImage = async (req, res) => {
   try {
@@ -318,12 +434,12 @@ export const deleteUserAccount = async (req, res) => {
     if (!user) {
       return res.status(400).json({
         success: false,
-        message: "User does not exist",
+        message: "User deleted exist",
       });
     }
 
     await deleteOnCloudinary(user?.avtar?.public_id);
-    const deleteUser = await User.findByIdAndDelete(req.params.id);
+    await User.findByIdAndDelete(req.params.id);
 
     return res.status(200).json({
       success: true,

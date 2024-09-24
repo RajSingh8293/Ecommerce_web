@@ -1,6 +1,6 @@
 import express, { Router } from "express";
 
-import { isAuthenticated } from "../middleware/auth.middleware.js";
+import { isAdmin, isAuthenticated } from "../middleware/auth.middleware.js";
 import {
   allProducts,
   addProduct,
@@ -13,22 +13,55 @@ import {
   updateProductFeatured,
   deleteAllProducts,
   insertManyProducts,
+  updateProductImage,
 } from "../controllers/product.controllers.js";
+import { upload } from "../middleware/file.middleware.js";
 
 const router = express.Router();
+
 // user
-router.post("/product/create", isAuthenticated, addProduct);
-// router.post('/product', upload.single("productImage"), addProductController)
 router.get("/products", allProducts);
 router.get("/products/:id", getProductById);
 router.put("/products/review", isAuthenticated, createProductReview);
 
 // admin
-router.get("/products/admin", isAuthenticated, adminAllProducts);
-router.delete("/products/delete/:id", isAuthenticated, deteleProductById);
-router.delete("/products/delete-all", isAuthenticated, deleteAllProducts);
-router.post("/products/insert", isAuthenticated, insertManyProducts);
-router.put("/products/update/:id", isAuthenticated, updateProduct);
+router.post(
+  "/product/create",
+  upload.single("productImage"),
+  isAuthenticated,
+  isAdmin,
+  addProduct
+);
+
+router.put(
+  "/admin/products/update-image/:id",
+  upload.single("productImage"),
+  isAuthenticated,
+  isAdmin,
+  updateProductImage
+);
+
+router.get("/admin/products", isAuthenticated, isAdmin, adminAllProducts);
+// router.get("/admin/products", isAuthenticated, isAdmin, adminAllProducts);
+router.delete(
+  "/admin/products/delete/:id",
+  isAuthenticated,
+  isAdmin,
+  deteleProductById
+);
+router.delete(
+  "/products/delete-all",
+  isAuthenticated,
+  isAdmin,
+  deleteAllProducts
+);
+router.post("/products/insert", isAuthenticated, isAdmin, insertManyProducts);
+router.put(
+  "/admin/products/update/:id",
+  isAuthenticated,
+  isAdmin,
+  updateProduct
+);
 router.patch("/products/featured/:id", isAuthenticated, updateProductFeatured);
 
 router.get("/products/reviews", getAllReviews);

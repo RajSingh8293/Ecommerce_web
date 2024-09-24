@@ -15,6 +15,9 @@ const cartSlice = createSlice({
         cartItems: localStorage.getItem('cartItems')
             ? JSON.parse(localStorage.getItem('cartItems'))
             : [],
+        shippingInfo: localStorage.getItem('shippingInfo')
+            ? JSON.parse(localStorage.getItem('shippingInfo'))
+            : [],
         status: STATUS.IDLE,
     },
     reducers: {
@@ -57,7 +60,7 @@ const cartSlice = createSlice({
         },
         shippingReducer: (state, action) => {
             state.shippingInfo = action.payload
-            sessionStorage.setItem('shippingInfo', JSON.stringify(state.shippingInfo))
+            localStorage.setItem('shippingInfo', JSON.stringify(state.shippingInfo))
         },
 
         setStatus: (state, action) => {

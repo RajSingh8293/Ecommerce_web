@@ -30,14 +30,6 @@ const SearchModal = ({ handleClose, open }) => {
         }
         handleClose()
     }
-    // useEffect(() => {
-
-    //     if (keyword.trim()) {
-    //         navigate(`/products/${keyword}`)
-    //     } else {
-    //         navigate(`/products`)
-    //     }
-    // }, [navigate, keyword])
     return (
         <div>
             <Modal
@@ -47,14 +39,15 @@ const SearchModal = ({ handleClose, open }) => {
                 aria-describedby="modal-modal-description"
             >
                 <Box sx={style}>
-                    <div className="flex">
-                        <Input className="w-full" placeholder="Search" color="dark" focused={keyword.toString()}
+                    <div className="flex w-full h-full">
+                        <Input className="w-full text-xs" color="dark" placeholder="Search" focused={keyword.toString()}
                             onChange={(e) => setKeyword(e.target.value)}
                         />
-                        <button onClick={searchHandler} className="text-gray-600 px-4 h-full">
+                        <button onClick={searchHandler} className="text-[tomato] rounded-r-sm p-2 px-4 h-full">
                             <SearchIcon />
                         </button>
                     </div>
+
                 </Box>
             </Modal>
         </div>

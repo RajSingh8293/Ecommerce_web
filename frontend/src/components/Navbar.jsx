@@ -11,13 +11,6 @@ import {
     Avatar,
     Button,
     Drawer,
-    FormControl,
-    IconButton,
-    Input,
-    ListItem,
-    ListItemIcon,
-    Menu,
-    MenuItem
 } from "@mui/material";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ToggleNavbar from "./ToggleNavbar";
@@ -41,10 +34,11 @@ const Navbar = () => {
 
     const [open, setOpen] = useState(false);
     const navigate = useNavigate()
-    const { user } = useSelector((state) => state.user)
+    const { user, isAuthenticated } = useSelector((state) => state.user)
     const dispatch = useDispatch()
     const { cartItems } = useSelector((state) => state.cartItems)
     const totalItems = useSelector((state) => state.favorateItems.favorateItems)
+
 
 
 
@@ -86,107 +80,94 @@ const Navbar = () => {
         <section className="fixed w-full z-50 h-16 flex  py-2  bg-white shadow">
             <div className="flex w-full justify-between lg:px-10 px-5 items-center gap-3 text-gray-600 ">
                 <div>
-                    {user?.role === "admin" ?
-                        <h1 className="text-3xl font-bold text-[tomato]">
-                            <Link to='/myproducts'>LearnEcom</Link>
-                        </h1>
-                        :
-                        <h1 className="text-3xl font-bold text-[tomato]">
-                            <Link to='/'>LearnEcom</Link>
-                        </h1>
-                    }
+                    <h1 className="text-3xl font-bold tomato">
+                        <Link to='/'>LearnCode</Link>
+                    </h1>
                 </div>
                 <div>
-                    {
-                        user?.role === "admin" ?
-                            <ul className="flex justify-center items-center gap-4">
-                                <li>
-                                    <NavLink to='/dashboard'>
-                                        Dasboard
-                                    </NavLink>
-                                </li>
 
-                            </ul>
-                            :
-                            <>
-                                <ul className="hidden md:flex lg:flex justify-center items-center gap-7">
-                                    <li >
-                                        <button onClick={handleOpen} className="text-gray-600">
-                                            <SearchIcon />
-                                        </button>
+                    <>
+                        <ul className="hidden md:flex lg:flex justify-center items-center gap-7">
+                            <li >
+                                <button onClick={handleOpen} className="navLinks text-gray-600">
+                                    <SearchIcon />
+                                </button>
+                            </li>
+                            <li >
+                                <NavLink to='/' className="navLinks text-gray-600 font-semibold">
+                                    Home
+                                </NavLink>
+                            </li>
+                            <li >
+                                <NavLink to='/products' className="navLinks text-gray-600 font-semibold">
+                                    Products
+                                </NavLink>
+                            </li>
+                            {isAuthenticated && user?.role === "admin" && <li>
+                                <NavLink to='/dashboard' className="navLinks text-gray-600 font-semibold">
+                                    Dasboard
+                                </NavLink>
+                            </li>}
 
-                                    </li>
-                                    <li >
-                                        <NavLink to='/' className="text-gray-600 font-semibold">
-                                            Home
-                                        </NavLink>
-                                    </li>
-                                    <li >
-                                        <NavLink to='/products' className="text-gray-600 font-semibold">
-                                            Products
-                                        </NavLink>
-                                    </li>
 
+                            {
+                                user ? ""
+                                    :
+
+                                    <>
+                                        <li >
+                                            <NavLink to='/login' className="text-gray-600 navLinks font-semibold">
+                                                Login
+                                            </NavLink>
+                                        </li>
+                                        <li >
+                                            <NavLink to='/register' className="text-gray-600 navLinks font-semibold">
+                                                Register
+                                            </NavLink>
+                                        </li>
+                                    </>
+                            }
+
+                            <li>
+                                <StyledBadge badgeContent={cartItems?.length} color="secondary">
+                                    <Link to='/cart'>
+                                        < LocalMallOutlinedIcon className="navLinks" />
+                                    </Link>
+                                </StyledBadge>
+                            </li>
+
+                            <li>
+
+                                <StyledBadge badgeContent={totalItems?.length} color="secondary">
+                                    <Link to='/favorate-products'>
+                                        <FavoriteBorderOutlinedIcon className="navLinks" />
+                                    </Link>
+                                </StyledBadge>
+                            </li>
+
+                            {user && <li>
+                                <Avatar onClick={() => handleClick(!open)} className="capitalize" sx={{ width: 32, height: 32, backgroundColor: "tomato", color: "white", fontWeight: "bold" }}>
 
                                     {
-                                        user ? ""
+                                        user?.avtar?.url ?
+                                            <img className="w-full h-full" src={user?.avtar?.url} alt="" />
                                             :
-
-                                            <>
-                                                <li >
-                                                    <NavLink to='/login' className="text-gray-600 font-semibold">
-                                                        Login
-                                                    </NavLink>
-                                                </li>
-                                                <li >
-                                                    <NavLink to='/register' className="text-gray-600 font-semibold">
-                                                        Register
-                                                    </NavLink>
-                                                </li>
-                                            </>
+                                            user?.username?.slice(0, 1)
                                     }
+                                </Avatar>
+                            </li>
+                            }
 
-                                    <li>
-                                        <StyledBadge badgeContent={cartItems?.length} color="secondary">
-                                            <Link to='/cart'>
-                                                < LocalMallOutlinedIcon />
-                                            </Link>
-                                        </StyledBadge>
-                                    </li>
+                        </ul>
+                        <div className="lg:hidden md:hidden">
+                            {show ? "" : <Button onClick={toggleDrawer(true)}> <CiMenuFries className="z-20  navLinks" color="black" fontSize={25} />
+                            </Button>}
+                            <Drawer open={show} onClose={toggleDrawer(false)}>
+                                <ToggleNavbar className="navLink" />
+                            </Drawer>
+                        </div>
+                    </>
 
-                                    <li>
-
-                                        <StyledBadge badgeContent={totalItems?.length} color="secondary">
-                                            <Link to='/favorate-products'>
-                                                <FavoriteBorderOutlinedIcon />
-
-                                            </Link>
-                                        </StyledBadge>
-                                    </li>
-
-                                    {user && <li>
-                                        <Avatar onClick={() => handleClick(!open)} className="bg-orange-600 capitalize" sx={{ width: 32, height: 32, backgroundColor: "orange" }}>
-
-                                            {
-                                                user?.avtar?.url ?
-                                                    <img className="w-full h-full" src={user?.avtar?.url} alt="" />
-                                                    :
-                                                    user?.username?.slice(0, 1)
-                                            }
-                                        </Avatar>
-                                    </li>
-                                    }
-
-                                </ul>
-                                <div className="lg:hidden md:hidden">
-                                    {show ? "" : <Button onClick={toggleDrawer(true)}> <CiMenuFries className="z-20" color="black" fontSize={25} />
-                                    </Button>}
-                                    <Drawer open={show} onClose={toggleDrawer(false)}>
-                                        <ToggleNavbar />
-                                    </Drawer>
-                                </div>
-                            </>
-                    }
 
 
                     {open && <div className=" bg-white absolute mt-2 top-16 right-5 border shadow-lg p-4 ">

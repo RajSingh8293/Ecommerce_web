@@ -4,13 +4,13 @@ import { FaLinkedinIn } from "react-icons/fa";
 
 const Footer = () => {
     return (
-        <div className=" lg:px-0 ">
+        <div className=" lg:px-0 bg-white ">
             <hr className="w-[50%] mx-auto" />
-            <div className="lg:px-10 px-5 bg-white  shadow-black lg:py-10 pt-10  ">
-                <h1 className="text-3xl font-bold mb-4 text-[tomato]">LearnCode</h1>
-                <div className="text-gray-600 py-5 grid gap-4 grid-cols-2 lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-2  place-items-stretch ">
+            <div className="lg:px-10 px-5  shadow-black lg:py-10 pt-10  ">
+                <h1 className="text-3xl  font-bold  mb-4 tomato">LearnCode</h1>
+                <div className="text-gray-600 py-5 grid gap-4 grid-cols-2 lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-2  place-items-stretch  ">
                     <div className="">
-                        <ul>
+                        <ul >
                             <li>Home</li>
                             <li>About</li>
                             <li>Contact</li>
@@ -56,10 +56,10 @@ const Footer = () => {
                 <div className="py-5">
                     <div className="flex gap-4 justify-start items-center text-black">
                         <h1 className="font-semibold">Follows :</h1>
-                        <span className="bg-white p-2 rounded-full hover:bg-orange-500 "><FaFacebookF className="hover:scale-75" color="black" /></span>
-                        <span className="bg-white p-2 rounded-full hover:bg-orange-500 "><FaTwitter className="hover:scale-75" color="black" /></span>
-                        <span className="bg-white p-2 rounded-full hover:bg-orange-500 "><FaLinkedinIn className="hover:scale-75" color="black" /></span>
-                        <span className="bg-white p-2 rounded-full hover:bg-orange-500 "><FaInstagram className="hover:scale-75" color="black" /></span>
+                        <span className=" p-2 rounded-full bgTomato "><FaFacebookF className="hover:scale-75" color="black" /></span>
+                        <span className=" p-2 rounded-full bgTomato "><FaTwitter className="hover:scale-75" color="black" /></span>
+                        <span className=" p-2 rounded-full bgTomato "><FaLinkedinIn className="hover:scale-75" color="black" /></span>
+                        <span className=" p-2 rounded-full bgTomato "><FaInstagram className="hover:scale-75" color="black" /></span>
                     </div>
                 </div>
             </div>

@@ -85,6 +85,7 @@ export const productSlice = createSlice({
 export const {
     requestForProducts, successForProducts, failedForProducts,
     requestSingleProduct, successSingleProduct, failedSingleProduct,
+
     clearAllError, } = productSlice.actions;
 export default productSlice.reducer;
 
@@ -92,13 +93,12 @@ export default productSlice.reducer;
 // let axiosConfig = {
 //     withCredentials: true,
 // }
+
 // all products 
 export const fetchProducts = (keyword = "", currentPage = 1, category, type, color, price = [0, 10000]) => async (dispatch) => {
-    // export const fetchProducts = (keyword = "", currentPage = 1, color, category, name, price = [0, 2000]) => async (dispatch) => {
     dispatch(requestForProducts());
     try {
         let link = `${backendApi}/api/v1/products?`;
-
         let queryParams = [];
         if (keyword) {
             queryParams.push(`keyword=${keyword}`);
@@ -146,6 +146,8 @@ export const fetchSingleProduct = (id) => async (dispatch) => {
     }
 
 }
+
+
 
 
 

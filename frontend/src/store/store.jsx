@@ -4,6 +4,7 @@ import favorateProductsSlice from './slices/favorateProductsSlice';
 import cartSlice from './slices/cartSlice';
 import userSlice from './slices/userSlice';
 import ordersSlice from './slices/orderSlice';
+import adminProducstSlice from './slices/AdminProductsSlice';
 
 
 
@@ -13,7 +14,8 @@ const store = configureStore({
         products: productSlice,
         favorateItems: favorateProductsSlice,
         cartItems: cartSlice,
-        myOrders: ordersSlice,
+        orders: ordersSlice,
+        adminProducts: adminProducstSlice,
     },
 })
 

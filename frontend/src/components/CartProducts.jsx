@@ -12,7 +12,7 @@ const CartProducts = ({ data }) => {
     return (
         <div className="md:flex items-strech py-8 md:py-10 lg:py-8 border-t border-gray-50">
             <div className="md:w-4/12 2xl:w-1/4 w-full flex justify-center">
-                <img src={data?.productImage} alt="Black Leather Purse" className=" lg:h-[150px] md:h-[150px] object-center object-cover" />
+                <img src={data?.productImage?.url} alt="Black Leather Purse" className=" lg:h-[150px] md:h-[150px] object-center object-cover" />
 
             </div>
             <div className="md:pl-3 md:w-8/12 2xl:w-3/4 flex flex-col justify-center">

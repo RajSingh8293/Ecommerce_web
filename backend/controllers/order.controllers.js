@@ -1,9 +1,13 @@
 import Order from "../models/order.model.js";
+import Product from "../models/product.model.js";
 
 // get all admin orders
 export const getAllAdminOrders = async (req, res) => {
   try {
-    const orders = await Order.find();
+    const orders = await Order.find().populate({
+      path: "orderItems",
+      populate: "product",
+    });
     if (!orders) {
       res.status(402).json({
         success: false,
@@ -56,7 +60,7 @@ export const createOrderController = async (req, res) => {
     user: req.user?._id,
     // user: userid
   });
-  //   .populate({ path: "orderItems", populate: "product" });
+  // .populate({ path: "orderItems", populate: "product" });
   const orderdata = await order.save();
 
   if (!orderdata) {
@@ -130,17 +134,11 @@ export const deleteOrders = async (req, res) => {
         message: "Order not found",
       });
     }
-    const deleteOrder = await Order.findByIdAndDelete(req.params.id);
-    if (!deleteOrder) {
-      res.status(402).json({
-        success: false,
-        message: "Order not found with this id",
-      });
-    }
+    await Order.findByIdAndDelete(req.params.id);
+
     res.status(200).json({
       success: true,
       message: "Deleted order succefully",
-      order: deleteOrder,
     });
   } catch (error) {
     return res.status(200).json({
@@ -153,8 +151,8 @@ export const deleteOrders = async (req, res) => {
 
 export const updateOrderStatus = async (req, res) => {
   try {
-    const { orderStatus, orderId } = req.body;
-    const order = await Order.findById(orderId);
+    // const { orderStatus } = req.body;
+    let order = await Order.findById(req.params.id);
     if (!order) {
       return res.status(402).json({
         success: false,
@@ -162,12 +160,24 @@ export const updateOrderStatus = async (req, res) => {
       });
     }
 
-    await Order.findByIdAndUpdate(
-      order,
-      { $set: { orderStatus } },
-      { new: true }
-    );
+    if (order.orderStatus === "Delivered") {
+      return res.status(400).json({
+        success: false,
+        message: "Your already delivered the Order",
+      });
+    }
 
+    order.orderItems.forEach(async (order) => {
+      await updateOrderStock(order._id, order.quantity);
+    });
+    order.orderStatus = req.body.orderStatus;
+    // await Order.findByIdAndUpdate(
+    //   order,
+    //   { $set: { orderStatus } },
+    //   { new: true }
+    // );
+
+    await order.save();
     res.status(200).json({
       success: true,
       message: "Order status updated successfully",
@@ -177,6 +187,37 @@ export const updateOrderStatus = async (req, res) => {
       success: false,
       message: "Something wrong with getting order data",
       error,
+    });
+  }
+};
+
+async function updateOrderStock(id, quantity) {
+  const product = await Product.findById(id);
+  console.log("product :", product);
+
+  product.countInStock = product.countInStock - quantity;
+  // product.countInStock -= quantity;
+  await product.save({ validateBeforeSave: false });
+}
+
+export const deleteAllOrders = async (req, res) => {
+  try {
+    const orders = await Order.deleteMany({});
+    if (!orders) {
+      res.status(400).json({
+        success: false,
+        message: "Orders not deleted",
+      });
+      return;
+    }
+    res.status(200).json({
+      success: true,
+      message: "Orders deleted Successfully",
+    });
+  } catch (error) {
+    res.status(501).json({
+      success: false,
+      message: "Something went wrong",
     });
   }
 };

@@ -45,38 +45,39 @@ const orderSchema = mongoose.Schema(
         },
       },
     ],
-    orderItems: [
-      {
-        product: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Product",
-        },
-        name: {
-          type: String,
-          required: true,
-        },
-        quantity: {
-          type: Number,
-          required: true,
-        },
-        price: {
-          type: Number,
-          required: true,
-        },
-        image: {
-          type: String,
-          required: true,
-        },
-        size: {
-          type: String,
-          required: true,
-        },
-      },
-    ],
+    // orderItems: [
+    //   {
+    //     product: {
+    //       type: mongoose.Schema.Types.ObjectId,
+    //       ref: "Product",
+    //       required: true,
+    //     },
+    //     name: {
+    //       type: String,
+    //       required: true,
+    //     },
+    //     quantity: {
+    //       type: Number,
+    //       required: true,
+    //     },
+    //     price: {
+    //       type: Number,
+    //       required: true,
+    //     },
+    //     image: {
+    //       url: { type: String },
+    //       public_id: { type: String },
+    //     },
+    //     // image: {
+    //     //   type: String,
+    //     // },
+    //   },
+    // ],
+    orderItems: [],
     paymentInfo: {
-      paymentMethod: {
-        type: String,
-      },
+      // paymentMethod: {
+      //   type: String,
+      // },
       status: {
         type: String,
       },
@@ -87,7 +88,7 @@ const orderSchema = mongoose.Schema(
 
     itemsPrice: {
       type: Number,
-      default: 0.0,
+      default: 0,
       required: true,
     },
     shippingPrice: {
@@ -107,7 +108,7 @@ const orderSchema = mongoose.Schema(
     },
     orderStatus: {
       type: String,
-      default: "Processing",
+      default: "Pending",
       required: true,
     },
     paidAt: {

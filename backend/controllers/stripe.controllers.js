@@ -1,0 +1,28 @@
+import Stripe from "stripe";
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+// const stripe = new Stripe(stripeSecretKey);
+
+export const paymentProcessController = async (req, res) => {
+  const { amount } = req.body;
+  try {
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: amount,
+      currency: "usd",
+      description: "Software development",
+      metadata: {
+        company: "Ecommerce",
+      },
+    });
+
+    res.status(200).json({
+      success: true,
+      clientSecret: paymentIntent.client_secret,
+      meassage: "Payment succefully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: error.message,
+    });
+  }
+};

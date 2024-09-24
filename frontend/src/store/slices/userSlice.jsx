@@ -14,6 +14,7 @@ export const userSlice = createSlice({
         user: null,
         error: null,
         message: null,
+        allUsers: []
     },
     reducers: {
 
@@ -144,6 +145,57 @@ export const userSlice = createSlice({
             state.isAuthenticated = true
             state.error = state.payload
         },
+
+
+        // admin all users
+        getAllUsersRequest: (state, action) => {
+            state.loading = true
+            state.error = null;
+        },
+        getAllUsersSuccess: (state, action) => {
+            state.loading = false
+            state.allUsers = action.payload.users;
+            state.error = null;
+        },
+        getAllUsersFailed: (state, action) => {
+            state.loading = false
+            state.error = action.payload;
+            state.message = null;
+        },
+        // admin delete user account
+        deleteUserRequest: (state, action) => {
+            state.loading = true
+            state.error = null;
+        },
+        deleteUserSuccess: (state, action) => {
+            state.loading = false
+            state.message = action.payload.message;
+            state.error = null;
+        },
+        deleteUserFailed: (state, action) => {
+            state.loading = false
+            state.error = action.payload;
+            state.message = null;
+        },
+        // admin update user role
+        updateUserRoleRequest: (state, action) => {
+            state.loading = true
+            state.error = null;
+        },
+        updateUserRoleSuccess: (state, action) => {
+            state.loading = false
+            state.message = action.payload.message;
+            state.error = null;
+        },
+        updateUserRoleFailed: (state, action) => {
+            state.loading = false
+            state.error = action.payload;
+            state.message = null;
+        },
+
+
+
+
         clearAllErrors: (state, action) => {
             state.user = action.payload;
             state.error = null
@@ -158,6 +210,15 @@ export const {
     profileRequest, profileSuccess, profileFailed,
     userLogoutSuccess, userLogoutFailed,
     updateProfileRequest, updateProfileSuccess, updateProfileFailed,
+    getAllUsersRequest,
+    getAllUsersSuccess,
+    getAllUsersFailed,
+    deleteUserRequest,
+    deleteUserSuccess,
+    deleteUserFailed,
+    updateUserRoleRequest,
+    updateUserRoleSuccess,
+    updateUserRoleFailed,
     clearAllErrors,
 } = userSlice.actions;
 export default userSlice.reducer;
@@ -193,7 +254,7 @@ export const loginUser = (userData) => {
             const { data } = await axios.post(`${backendApi}/api/v1/user/login`, userData, axiosConfig);
             if (data.success) {
                 dispatch(loginSuccess(data));
-                toast.success(data.message)
+                toast.success(data?.message)
             }
         } catch (error) {
             console.log(error);
@@ -208,8 +269,8 @@ export const logoutUser = () => {
             const { data } = await axios.get(`${backendApi}/api/v1/user/logout`, axiosConfig);
             if (data.success) {
                 dispatch(userLogoutSuccess(data));
-                toast.success(data?.message)
                 document.location.href = '/'
+                toast.success(data?.message)
             }
         } catch (error) {
             console.log(error);
@@ -271,6 +332,62 @@ export const updateProfileImage = (image) => {
 }
 
 
+// admin get all users 
+export const fetchAllUsers = () => {
+    return async (dispatch) => {
+        dispatch(getAllUsersRequest())
+        try {
+            const { data } = await axios.get(`${backendApi}/api/v1/user/all`, axiosConfig);
+
+            if (data.success) {
+                dispatch(getAllUsersSuccess(data));
+                // document.location.href = '/profile'
+            }
+        } catch (error) {
+            dispatch(getAllUsersFailed(error?.response?.data?.message))
+        }
+    };
+}
+
+
+// admin update user role 
+export const updateUserRoleByAdmin = (role, userId) => {
+    return async (dispatch) => {
+        dispatch(updateUserRoleRequest())
+        try {
+            const { data } = await axios.put(`${backendApi}/api/v1/user/role/update/${userId}`,
+                role,
+                axiosConfig
+            );
+            if (data.success) {
+                dispatch(updateUserRoleSuccess(data));
+                toast.success(data?.message)
+                dispatch(fetchAllUsers())
+                // document.location.href = '/profile'
+            }
+        } catch (error) {
+            dispatch(updateUserRoleFailed(error?.response?.data?.message))
+        }
+    };
+}
+
+// admin delete user account 
+export const deleteUserAccount = (userId) => {
+    return async (dispatch) => {
+        dispatch(deleteUserRequest())
+        try {
+            const { data } = await axios.delete(`${backendApi}/api/v1/user/admin/delete/${userId}`, axiosConfig);
+            if (data.success) {
+                dispatch(deleteUserSuccess(data));
+                toast.success(data?.message)
+                dispatch(fetchAllUsers())
+                // document.location.href = '/profile'
+            }
+        } catch (error) {
+            dispatch(deleteUserFailed(error?.response?.data?.message))
+        }
+    };
+}
 
 
 export const clearAllUserErrors = () => async (dispatch) => {

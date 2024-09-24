@@ -30,7 +30,6 @@ const ProductSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
-      trim: true,
     },
     type: {
       type: String,
@@ -41,10 +40,6 @@ const ProductSchema = new mongoose.Schema(
       default: false,
     },
     productImage: {
-      type: String,
-      required: true,
-    },
-    image: {
       url: {
         type: String,
       },
@@ -52,6 +47,18 @@ const ProductSchema = new mongoose.Schema(
         type: String,
       },
     },
+    // productImage: {
+    //   type: String,
+    //   required: true,
+    // },
+    // image: {
+    //   url: {
+    //     type: String,
+    //   },
+    //   public_id: {
+    //     type: String,
+    //   },
+    // },
     title: {
       type: String,
       required: true,
@@ -77,7 +84,10 @@ const ProductSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    sizes: [{ type: String }],
+    sizes: {
+      type: Array,
+      required: true,
+    },
     // reviews: [reviewsSchema],
 
     reviews: [

@@ -10,21 +10,36 @@ const responsive = {
 };
 
 
-const categoryData = ["Men", "Women", "Kids"]
+const categoryData = [
+    {
+        name: "Men",
+        icon: '/src/assets/Category_PNG/man_png.png'
+    },
+    {
+        name: "Women",
+        icon: '/src/assets/Category_PNG/woman_png.png'
+    },
+    {
+        name: "Kids",
+        icon: '/src/assets/Category_PNG/children_png.png'
+    }
+]
 
 
 
 const Categories = () => {
 
-    const items = categoryData?.map((item) => <CategoryCard item={item} key={item._id} />)
+    const items = categoryData?.map((item, index) =>
+        <CategoryCard item={item} key={index} />
+    )
 
     return (
         <AliceCarousel
             mouseTracking
-            disableDotsControls
             disableButtonsControls
             responsive={responsive}
             items={items}
+
         />
     )
 }

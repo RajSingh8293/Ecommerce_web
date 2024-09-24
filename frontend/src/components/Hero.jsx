@@ -1,4 +1,3 @@
-import Button from "./Button"
 import HeroImages from "./HeroImages"
 
 
@@ -29,7 +28,7 @@ const Hero = () => {
                             <h1 className="py-4 lg:text-4xl md:text-5xl sm:text-4xl text-2xl font-bold text-black">
                                 There Are
                                 <br />
-                                <span className="text-blue-600">50% </span>
+                                <span className="text-[tomato]">50% </span>
                                 Discount For Today!
                             </h1>
                         </div>
@@ -38,8 +37,8 @@ const Hero = () => {
 
                         <p className="py-4 text-sm opacity-80 z-10"><strong>Popular searches : </strong>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae, debitis!</p>
 
-                        <div className="pt-4">
-                            <Button title="Explore more..." />
+                        <div className="pt-4 ">
+                            <button className="btn w-[200px]">Explore more...</button>
                         </div>
                     </div>
                     <div className="absolute w-[500px] h-[300px] top-12 right-10 rounded-lg flex flex-col overflow-hidden  items-center">

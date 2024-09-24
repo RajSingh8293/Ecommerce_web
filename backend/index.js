@@ -9,11 +9,11 @@ import connectDb from "./db/conn.js";
 // or
 import "dotenv/config";
 
-const app = express();
 const port = process.env.PORT || 4501;
+const app = express();
 
 const corsOptions = {
-  origin: ["http://localhost:5174"],
+  origin: "http://localhost:5174",
   credentials: true,
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 };
@@ -29,14 +29,12 @@ app.use(express.static("public"));
 import userRouter from "./routes/user.routes.js";
 import productRouter from "./routes/product.routes.js";
 import orderRouter from "./routes/order.routes.js";
-
-app.get("/", (req, res) => {
-  res.send("Job Portal Web!");
-});
+import stripeRouter from "./routes/stripe.routes.js";
 
 app.use("/api/v1", userRouter);
 app.use("/api/v1", productRouter);
 app.use("/api/v1", orderRouter);
+app.use("/api/v1", stripeRouter);
 
 connectDb()
   .then(() => {
