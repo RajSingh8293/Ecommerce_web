@@ -24,10 +24,12 @@ import { toast } from "react-toastify";
 import Layout from '../../components/Layout';
 import Sidebar from '../../components/Sidebar';
 import { backendApi } from '../../constant/backendApi';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { fetchCreatProduct } from '../../store/slices/AdminProductsSlice';
 import AdminNavbar from '../../components/AdminNavbar';
+import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
+
 
 
 
@@ -108,227 +110,225 @@ const AddProduct = () => {
             <section className="py-24 lg:px-10 px-5">
                 <div className='min-h-[70vh]'>
                     <Sidebar />
-
                     <div className="lg:ml-64">
-                        <div className='flex flex-col justify-between items-center'>
-                            <h1 className='text-xl text-gray-600 font-bold'>Add Product</h1>
-                            <Box
-                                className="w-full flex gap-3 flex-col"
-                                sx={{
-                                    zIndex: -1
-                                }}
-
-
-                            >
-                                <div className='flex gap-10 items-center'>
-                                    <Button
-                                        component="label"
-                                        role={undefined}
-                                        tabIndex={-1}
-                                        startIcon={<CloudUploadIcon />}
-                                    >
-                                        Upload files
-                                        <VisuallyHiddenInput
-                                            type="file"
+                        <div className=' flex flex-col justify-between items-center '>
+                            <h1 className='py-4 text-xl text-gray-600 font-bold'>Create New Product</h1>
+                            <div className='w-full flex gap-3 flex-col'>
+                                <div className='flex items-center gap-5'>
+                                    <div className="">
+                                        <input type="file"
                                             accept='image/*'
                                             name='productImage'
                                             onChange={onchangeFileHandler}
-                                        // onChange={(e) => setProductImage(e.target.files[0])}
-                                        />
-                                    </Button>
+                                            id="upload"
+                                            required
+                                            hidden />
+                                        <label htmlFor="upload" className=''>
+                                            <img className='h-[80px] border-2 border-dotted rounded-lg p-5' src="/src/assets/upload_img.png" alt="" />
 
-                                    <div className=" grid grid-cols-4 gap-3">
-                                        <img className='h-[100px]' src={imagePreview} alt="" />
+                                        </label>
                                     </div>
+                                    {
+                                        imagePreview && <div className="">
+                                            <img className='h-[100px]' src={imagePreview} alt="" />
+                                        </div>
+                                    }
                                 </div>
                                 <div className='grid lg:grid-cols-2 md:grid-cols-2 gap-5'>
-                                    <TextField
-                                        label="Name"
-                                        name='name'
-                                        value={name}
-                                        onChange={(e) => setName(e.target.value)}
-                                    // value={productData?.name}
-                                    // onChange={onchangeHandler}
-                                    />
-                                    <TextField
-                                        label="Type"
-                                        name='type'
-                                        // value={productData?.type}
-                                        // onChange={onchangeHandler}
-                                        value={type}
-                                        onChange={(e) => setType(e.target.value)}
-                                    />
-                                </div>
-                                <div className='grid lg:grid-cols-2 gap-5'>
-                                    <FormControl fullWidth>
-                                        <InputLabel>Category</InputLabel>
-                                        <Select
-                                            label="Category"
-                                            name='category'
-                                            multiline
-
-                                            // value={productData?.category}
-                                            // onChange={onchangeHandler}
-                                            value={category}
-                                            onChange={(e) => setCategory(e.target.value)}
-                                        >
-                                            <MenuItem value="Men">Men</MenuItem>
-                                            <MenuItem value="Women">Women</MenuItem>
-                                            <MenuItem value="Kids">Kids</MenuItem>
-                                        </Select>
-                                    </FormControl>
-
-                                    <FormControl fullWidth>
-                                        <InputLabel>SubCategory</InputLabel>
-                                        <Select
-                                            label="Sub Category"
-                                            name='subCategory'
-                                            // value={productData?.subCategory}
-                                            // onChange={onchangeHandler}
-                                            value={subCategory}
-                                            onChange={(e) => setSubCategory(e.target.value)}
-                                        >
-                                            <MenuItem value="Top">Top</MenuItem>
-                                            <MenuItem value="Bottom">Bottom</MenuItem>
-                                        </Select>
-                                    </FormControl>
-
-                                </div>
-
-                                <div className='grid lg:grid-cols-2 gap-5'>
-                                    <FormControl fullWidth>
-                                        <InputLabel>Color</InputLabel>
-                                        <Select
-                                            label="Color"
-                                            name='color'
-                                            multiline
-
-                                            // value={productData?.color}
-                                            // onChange={onchangeHandler}
-                                            value={color}
-                                            onChange={(e) => setColor(e.target.value)}
-                                        >
-                                            {filterByColor?.map((color) =>
-                                                <MenuItem key={color} value={color}>{color}</MenuItem>
-                                            )}
-                                        </Select>
-                                    </FormControl>
-
-                                    <FormControl fullWidth>
-                                        <InputLabel>Featured</InputLabel>
-                                        <Select
-                                            label="Featured"
-                                            name='featured'
-                                            // value={productData?.featured}
-                                            // onChange={onchangeHandler}
-                                            value={featured}
-                                            onChange={(e) => setFeatured(e.target.value)}
-                                        >
-                                            <MenuItem value="true">Yes</MenuItem>
-                                            <MenuItem value="false">No</MenuItem>
-                                        </Select>
-                                    </FormControl>
-                                </div>
-
-                                <div className='grid lg:grid-cols-2 gap-5'>
-                                    <TextField
-                                        label="Price"
-                                        name='price'
-                                        // value={productData?.price}
-                                        // onChange={onchangeHandler}
-                                        value={price}
-                                        onChange={(e) => setPrice(e.target.value)}
-                                    />
-                                    <TextField
-                                        label="Count In-Stock"
-                                        name='countInStock'
-                                        // value={productData?.countInStock}
-                                        // onChange={onchangeHandler}
-                                        value={countInStock}
-                                        onChange={(e) => setCountInStock(e.target.value)}
-                                    />
-                                </div>
-                                <div className='grid lg:grid-cols-2 gap-5'>
-                                    <TextField
-                                        label="Title"
-                                        name='title'
-
-                                        value={title}
-                                        onChange={(e) => setTitle(e.target.value)}
-                                    />
-                                    <TextField
-                                        label="Description"
-                                        name='description'
-                                        value={description}
-                                        onChange={(e) => setDescription(e.target.value)}
-
-                                    />
-                                </div>
-
-                                <div className='flex gap-5'>
-                                    <FormGroup >
-                                        <div className='flex '>
-
-
-                                            <div>
-                                                <FormControlLabel control={<Checkbox value="S" onClick={() => setSizes(prev => prev.includes("S") ? prev.filter(item => item !== "S") : [...prev, "S"])} />} label="Small" />
-                                            </div>
-                                            <div>
-                                                <FormControlLabel control={<Checkbox value="M" onClick={() => setSizes(prev => prev.includes("M") ? prev.filter(item => item !== "M") : [...prev, "M"])} />} label="Medium" />
-                                            </div>
-
-                                            <div>
-                                                <FormControlLabel control={<Checkbox value="L" onClick={() => setSizes(prev => prev.includes("L") ? prev.filter(item => item !== "L") : [...prev, "L"])} />} label="Large" />
-                                            </div>
-                                            <div>
-                                                <FormControlLabel control={<Checkbox value="XL" onClick={() => setSizes(prev => prev.includes("XL") ? prev.filter(item => item !== "XL") : [...prev, "XL"])} />} label="Extra Large" />
-                                            </div>
+                                    <div>
+                                        <label htmlFor="email" className="block w-full text-sm font-medium leading-6 text-gray-900">
+                                            Product Name
+                                        </label>
+                                        <div className="">
+                                            <input
+                                                type='text'
+                                                name='name'
+                                                value={name}
+                                                onChange={(e) => setName(e.target.value)}
+                                                placeholder="Casual Shirt"
+                                                required
+                                                className="px-4 block w-full border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-none focus:ring-[tomato] focus:ring-2  sm:text-sm sm:leading-6"
+                                            />
                                         </div>
-                                    </FormGroup>
-
-
-
-                                    {/* <div >
-                                        <button
-                                            onClick={() => setSizes(prev => prev.includes("S") ? prev.filter(item => item !== "S") : [...prev, "S"])}
-                                            className={`${sizes.includes("S") ? "bg-[tomato]" : "bg-slate-200"} px-3 py-1 cursor-pointer`}>S</button>
                                     </div>
-                                    <div
-                                    >
-                                        <button
-                                            onClick={() => setSizes(prev => prev.includes("M") ? prev.filter(item => item !== "M") : [...prev, "M"])}
-                                            className={`${sizes.includes("M") ? "bg-[tomato]" : "bg-slate-200"} px-3 py-1 cursor-pointer`}>M</button>
+                                    <div>
+                                        <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                                            Product Type
+                                        </label>
+                                        <div className="">
+                                            <input
+                                                type='text'
+                                                name='type'
+                                                value={type}
+                                                onChange={(e) => setType(e.target.value)}
+                                                placeholder="Shirts, Pants etc"
+                                                required
+                                                className="px-4 block w-full border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-none focus:ring-[tomato] focus:ring-2  sm:text-sm sm:leading-6"
+                                            />
+                                        </div>
                                     </div>
-                                    <div >
-                                        <button
-                                            onClick={() => setSizes(prev => prev.includes("L") ? prev.filter(item => item !== "L") : [...prev, "L"])}
-                                            className={`${sizes.includes("L") ? "bg-[tomato]" : "bg-slate-200"} px-3 py-1 cursor-pointer`}>L</button>
-                                    </div>
-                                    <div >
-                                        <button
-                                            onClick={() => setSizes(prev => prev.includes("XL") ? prev.filter(item => item !== "XL") : [...prev, "XL"])}
-                                            className={`${sizes.includes("XL") ? "bg-[tomato]" : "bg-slate-200"} px-3 py-1 cursor-pointer`}>XL</button>
-                                    </div> */}
                                 </div>
 
-                                <div>
-                                    <Button
+                                <div className='grid lg:grid-cols-2 md:grid-cols-2 gap-5'>
+                                    <div>
+                                        <label htmlFor="Category" className="block w-full text-sm font-medium leading-6 text-gray-900">
+                                            Product Category
+                                        </label>
+                                        <div className="mt-2">
+                                            <select
+                                                label="Category"
+                                                name='category'
+                                                value={category}
+                                                onChange={(e) => setCategory(e.target.value)}
+                                                className="px-4 block w-full border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-none focus:ring-[tomato] focus:ring-2  sm:text-sm sm:leading-6"
+                                            >
+                                                <option value="Men">Men</option>
+                                                <option value="Women">Women</option>
+                                                <option value="Kids">Kids</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                                            Sub Category
+                                        </label>
+                                        <div className="mt-2">
+                                            <select
+                                                label="Sub Category"
+                                                name='subCategory'
+                                                value={subCategory}
+                                                onChange={(e) => setSubCategory(e.target.value)}
+                                                className="px-4 block w-full border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-none focus:ring-[tomato] focus:ring-2  sm:text-sm sm:leading-6"
+                                            >
+                                                <option value="Top">Top</option>
+                                                <option value="Bottom">Bottom</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className='grid lg:grid-cols-2 md:grid-cols-2 gap-5'>
+                                    <div>
+                                        <label htmlFor="Category" className="block w-full text-sm font-medium leading-6 text-gray-900">
+                                            Color
+                                        </label>
+                                        <div className="mt-2">
+                                            <select
+                                                name='color'
+                                                value={color}
+                                                onChange={(e) => setColor(e.target.value)}
+                                                className="px-4 block w-full border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-none focus:ring-[tomato] focus:ring-2  sm:text-sm sm:leading-6"
+                                            >
+                                                {filterByColor?.map((color) =>
+                                                    <option key={color}>{color}</option>
+                                                )}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                                            Featured
+                                        </label>
+                                        <div className="mt-2">
+                                            <select
+                                                name='featured'
+                                                value={featured}
+                                                onChange={(e) => setFeatured(e.target.value)}
+                                                className="px-4 block w-full border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-none focus:ring-[tomato] focus:ring-2  sm:text-sm sm:leading-6"
+                                            >
+                                                <option value="true">Yes</option>
+                                                <option value="false">No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div className='grid lg:grid-cols-2 md:grid-cols-2 gap-5'>
+                                    <div>
+                                        <label htmlFor="email" className="block w-full text-sm font-medium leading-6 text-gray-900">
+                                            Price
+                                        </label>
+                                        <div className="mt-2">
+                                            <input
+                                                type='number'
+                                                name='price'
+                                                value={price}
+                                                onChange={(e) => setPrice(e.target.value)}
+                                                placeholder="999"
+                                                required
+                                                className="px-4 block w-full border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-none focus:ring-[tomato] focus:ring-2  sm:text-sm sm:leading-6"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                                            Product Count
+                                        </label>
+                                        <div className="mt-2">
+                                            <input
+                                                type='number'
+                                                name='countInStock'
+                                                value={countInStock}
+                                                onChange={(e) => setCountInStock(e.target.value)}
+                                                placeholder="120"
+                                                required
+                                                className="px-4 block w-full border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-none focus:ring-[tomato] focus:ring-2  sm:text-sm sm:leading-6"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div className='grid lg:grid-cols-2 md:grid-cols-2 gap-5'>
+                                    <div>
+                                        <label htmlFor="email" className="block w-full text-sm font-medium leading-6 text-gray-900">
+                                            Title
+                                        </label>
+                                        <div className="mt-2">
+                                            <input
+                                                type='text'
+                                                name='title'
+                                                value={title}
+                                                onChange={(e) => setTitle(e.target.value)}
+                                                placeholder="Casual shit for man"
+                                                required
+                                                className="px-4 block w-full border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-none focus:ring-[tomato] focus:ring-2  sm:text-sm sm:leading-6"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                                            Product Count
+                                        </label>
+                                        <div className="mt-2">
+                                            <input
+                                                type='text'
+                                                name='description'
+                                                value={description}
+                                                onChange={(e) => setDescription(e.target.value)}
+                                                placeholder="Description"
+                                                required
+                                                className="px-4 block w-full border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-none focus:ring-[tomato] focus:ring-2  sm:text-sm sm:leading-6"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className='pt-4 w-full'>
+                                    <button
                                         type='submit'
                                         onClick={createNewProduct}
-                                        className='btn_2'
-                                        sx={{
-                                            backgroundColor: "black",
-                                            color: "white",
-                                            padding: "10px 20px",
-                                            borderRadius: 0,
-                                            fontWeight: 600,
-                                            transition: "0.3s ease"
-                                        }}
-                                    >Create Product</Button>
+                                        className='btn_2 w-full'
+                                    >
+                                        Create New Product
+
+                                    </button>
                                 </div>
 
-
-                            </Box>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -24,9 +24,10 @@ const SearchModal = ({ handleClose, open }) => {
     const searchHandler = (e) => {
         e.preventDefault()
         if (keyword.trim()) {
-            navigate(`/products/${keyword}`)
-        } else {
-            navigate(`/products`)
+            navigate(`/seacrh/${keyword}`)
+        }
+        else {
+            navigate(`/products}`)
         }
         handleClose()
     }

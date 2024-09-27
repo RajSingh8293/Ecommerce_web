@@ -62,7 +62,12 @@ router.put(
   isAdmin,
   updateProduct
 );
-router.patch("/products/featured/:id", isAuthenticated, updateProductFeatured);
+router.patch(
+  "/products/featured/:id",
+  isAuthenticated,
+  isAdmin,
+  updateProductFeatured
+);
 
 router.get("/products/reviews", getAllReviews);
 router.get("/products/reviews/:id", getAllReviews);

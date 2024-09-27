@@ -49,11 +49,10 @@ const Orders = () => {
                         <div className=" mt-10">
                             <TableContainer component={Paper}>
                                 <Table sx={{ minWidth: 650 }} aria-label="caption table">
-                                    <caption>A basic table example with a caption</caption>
                                     <TableHead>
                                         <TableRow>
                                             <TableCell>Order Id</TableCell>
-                                            <TableCell>Qty</TableCell>
+                                            <TableCell>Items</TableCell>
                                             <TableCell align="right">Total Amount</TableCell>
                                             <TableCell align="right">Order Date</TableCell>
                                             <TableCell align="right">Status</TableCell>

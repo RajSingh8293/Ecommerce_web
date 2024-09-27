@@ -1,6 +1,5 @@
 import Stripe from "stripe";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-// const stripe = new Stripe(stripeSecretKey);
 
 export const paymentProcessController = async (req, res) => {
   const { amount } = req.body;

@@ -5,6 +5,11 @@
  
 }
 
+.heading{
+  font-weight: bold;
+  font-size: 30px;
+}
+
 .navLinks:hover{
   color: tomato;
 }
@@ -116,6 +121,90 @@
 @keyframes l13{ 
   100%{transform: rotate(360deg)}
 }
+
+#label{
+  display: inline-block;
+  background-color: tomato;
+  color: white;
+  padding: 0.5rem;
+  font-family: sans-serif;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+
+.title_lines{
+  max-width: 500px;
+  margin: 30px auto;
+  text-align: center;
+  position: relative;
+}
+.title_lines:before{
+  content: "";
+  display: block;
+  width: 100px;
+  height: 2px;
+  background: tomato;
+  left: 0;
+  top: 50%;
+  position: absolute;
+}
+.title_lines:after{
+  content: "";
+  display: block;
+  width: 100px;
+  height: 2px;
+  background: tomato;
+  right: 0;
+  top: 50%;
+  position: absolute;
+}
+
+
+.newsLetter{
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+}
+
+
+/* *************** Contact Page ******************* */
+
+
+.contact-container {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  text-align: center;
+}
+
+form div {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.input{
+  padding: 6px;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+
+
+
 
 
 

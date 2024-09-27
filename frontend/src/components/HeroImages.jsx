@@ -5,7 +5,7 @@ import 'react-alice-carousel/lib/alice-carousel.css';
 const HeroImages = ({ heroImgages }) => {
 
 
-    const items = heroImgages?.map((item) => <img key={item} className='w-[500px] bg-fixed' src={item?.url} alt='' />)
+    const items = heroImgages?.map((item) => <img key={item} className='w-[500px] -z-2 bg-fixed' src={item?.url} alt='' />)
     return (
         <>
             <AliceCarousel
@@ -14,7 +14,7 @@ const HeroImages = ({ heroImgages }) => {
                 items={items}
                 autoPlayInterval="2000"
                 infinite
-                animationDuration="3000"
+                animationDuration="2000"
                 autoPlay={true}
             />
         </>

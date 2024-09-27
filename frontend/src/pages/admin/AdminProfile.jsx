@@ -46,48 +46,48 @@ const AdminProfile = () => {
                                                             <img className="h-[50px] opacity-50" src="/src/assets/profile_camera.png" alt="" />
                                                         </button>}
                                                 </div>
-                                                <div>
-                                                    <button className="absolute right-10  btn_2"
-                                                        onClick={openImageModal}
-                                                    >
-                                                        <ModeEditOutlineOutlinedIcon />
-                                                    </button>
-                                                </div>
+                                            </div>
+                                            <div>
+                                                <button className="py-1 px-2 btn_2"
+                                                    onClick={openImageModal}
+                                                >
+                                                    <ModeEditOutlineOutlinedIcon />
+                                                </button>
                                             </div>
                                         </div>
-                                        <div className=" grid grid-cols-1 gap-4 items-center mt-8 sm:mt-14 text-[#202142]">
 
-                                            <div className="w-full mb-2 grid grid-cols-4 gap-3 items-center">
-                                                <h1
-                                                    className="col-span-1 font-medium text-indigo-900 dark:text-white">Username: </h1>
-                                                <p id="first_name"
-                                                    className="text-indigo-900 col-span-3  text-noraml "
-                                                >{user?.username}
-                                                </p>
+                                        <div className="mt-8 flex justify-between items-end">
+                                            <div className=" grid grid-cols-1 gap-4 items-center   text-[#202142]">
+
+                                                <div className="w-full mb-2 grid grid-cols-4 gap-3 items-center">
+                                                    <h1
+                                                        className="col-span-1 font-medium text-indigo-900 dark:text-white">Username: </h1>
+                                                    <p id="first_name"
+                                                        className="text-indigo-900 col-span-3  text-noraml "
+                                                    >{user?.username}
+                                                    </p>
+                                                </div>
+
+                                                <div className="w-full mb-2 grid grid-cols-4 gap-3 items-center">
+                                                    <h1
+                                                        className="col-span-1 font-medium text-indigo-900 dark:text-white">Email: </h1>
+                                                    <p id="first_name"
+                                                        className="text-indigo-900 col-span-3 text-noraml "
+                                                    >{user?.email}</p>
+                                                </div>
+
+                                                <div className="w-full mb-2 grid grid-cols-4 gap-3 items-center">
+                                                    <h1
+                                                        className="col-span-1 font-medium text-indigo-900 dark:text-white">Role: </h1>
+                                                    <p id="first_name"
+                                                        className="text-indigo-900 col-span-3 text-noraml capitalize"
+                                                    >{user?.role}</p>
+                                                </div>
                                             </div>
-
-
-
-                                            <div className="w-full mb-2 grid grid-cols-4 gap-3 items-center">
-                                                <h1
-                                                    className="col-span-1 font-medium text-indigo-900 dark:text-white">Email: </h1>
-                                                <p id="first_name"
-                                                    className="text-indigo-900 col-span-3 text-noraml "
-                                                >{user?.email}</p>
-                                            </div>
-
-                                            <div className="w-full mb-2 grid grid-cols-4 gap-3 items-center">
-                                                <h1
-                                                    className="col-span-1 font-medium text-indigo-900 dark:text-white">Role: </h1>
-                                                <p id="first_name"
-                                                    className="text-indigo-900 col-span-3 text-noraml capitalize"
-                                                >{user?.role}</p>
-                                            </div>
-
-                                            <div className="absolute right-10 ">
+                                            <div className=" ">
                                                 <button type="submit"
                                                     onClick={handleOpen}
-                                                    className="inline-flex w-full px-4 justify-center btn_2">
+                                                    className="inline-flex w-full py-1 px-2 justify-center btn_2">
                                                     <ModeEditOutlineOutlinedIcon />
                                                 </button>
                                             </div>

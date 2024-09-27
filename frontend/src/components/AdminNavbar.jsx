@@ -2,7 +2,6 @@ import { Avatar } from "@mui/material"
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { Link, NavLink, useNavigate } from "react-router-dom"
-import SearchIcon from '@mui/icons-material/Search';
 import { logoutUser } from "../store/slices/userSlice";
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
@@ -51,11 +50,6 @@ const AdminNavbar = () => {
                         </button>
                     </div>
 
-                    <div>
-                        <button className="navLinks text-gray-600">
-                            <SearchIcon />
-                        </button>
-                    </div>
 
                     {user &&
                         <div>
@@ -99,10 +93,10 @@ const AdminNavbar = () => {
                     }
 
                     {showSidebar &&
-                        <section className="absolute top-16 left-0">
+                        <section className=" absolute top-16 left-0 ">
                             <div className="bg-white">
-                                <aside className=" z-50 w-64 h-screen border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700" aria-label="Sidebar">
-                                    <div className="h-full px-4  py-8 overflow-y-auto  dark:bg-gray-800">
+                                <aside className=" z-50 navSidebar transition ease duration-300 w-64 h-screen border-r border-gray-200 dark:bg-gray-800 dark:border-gray-700" aria-label="Sidebar">
+                                    <div className=" px-4  py-8 overflow-y-auto  dark:bg-gray-800">
                                         <ul className="space-y-2 font-medium">
                                             <li>
                                                 <NavLink to="/dashboard" className="flex items-center sideNavLinks p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">

@@ -16,6 +16,7 @@ import { PieChart } from '@mui/x-charts/PieChart';
 
 import { BarChart } from '@mui/x-charts/BarChart';
 import AdminNavbar from '../../components/AdminNavbar';
+import { currencySymbol } from '../../constant/currencySymbol';
 
 
 const Dashboard = () => {
@@ -149,7 +150,7 @@ const Dashboard = () => {
                                     </div>
                                     <div>
                                         <div className="font-bold text-4xl text-center">
-                                            {totalPrice}
+                                            {currencySymbol}{totalPrice}
                                         </div>
                                         <div className="font-bold text-sm">
                                             Total Sell

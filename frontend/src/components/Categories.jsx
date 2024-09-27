@@ -13,15 +13,16 @@ const responsive = {
 const categoryData = [
     {
         name: "Men",
-        icon: '/src/assets/Category_PNG/man_png.png'
+        icon: 'https://images.meesho.com/images/products/204307799/pd2lf_400.webp'
+
     },
     {
         name: "Women",
-        icon: '/src/assets/Category_PNG/woman_png.png'
+        icon: 'https://images.meesho.com/images/products/288007593/kk21w_400.webp'
     },
     {
         name: "Kids",
-        icon: '/src/assets/Category_PNG/children_png.png'
+        icon: 'https://images.meesho.com/images/products/431104480/expm3_400.webp'
     }
 ]
 
@@ -30,7 +31,9 @@ const categoryData = [
 const Categories = () => {
 
     const items = categoryData?.map((item, index) =>
-        <CategoryCard item={item} key={index} />
+        <div key={index} className='flex gap-3 justify-center'>
+            <CategoryCard item={item} />
+        </div>
     )
 
     return (

@@ -28,18 +28,12 @@ const Login = () => {
     }
 
 
-    // const redirect = location.search ? location.search.split("=")[1] : "/profile"
-
     useEffect(() => {
-        // if (isAuthenticated) {
-        //     navigate("/profile")
-        //     // navigate(`/login?redirect=checkout`)
-        // }
-        if (isAuthenticated && user?.role === "user") {
+        if (isAuthenticated || user.role === "user") {
             navigate("/profile")
-        }
-        if (isAuthenticated && user?.role === "admin") {
-            navigate("/admin-profile")
+            if (isAuthenticated || user.role === "admin") {
+                navigate("/dashboard")
+            }
         }
         if (error) {
             toast.error(error)

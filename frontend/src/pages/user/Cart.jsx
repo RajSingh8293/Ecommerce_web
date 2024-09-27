@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import CartProducts from "../../components/CartProducts";
 import { clearCartItems } from "../../store/slices/cartSlice";
 import { useEffect } from "react";
+import { currencySymbol } from "../../constant/currencySymbol";
 // import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 // import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
@@ -15,7 +16,7 @@ const Cart = () => {
         (acc, cur) => acc + cur.quantity * cur.price,
         0,
     )
-    const shipping = totalPrice > 100 ? 0 : 5
+    const shipping = totalPrice > 5000 ? 0 : 1000
 
     const checkoutHandler = () => {
         navigate('/checkout')
@@ -29,24 +30,22 @@ const Cart = () => {
     }, [])
     return (
         <Layout>
-            <section className="min-h-[100vh] py-24 lg:px-10 px-5">
-
+            <section className=" lg:py-24 py-26 lg:px-10 px-5">
                 {cartItems?.length > 0 ?
                     < div className="">
-                        <h1 className="font-bold text-xl text-gray-600 mb-3">Your Cart Have Total : {cartItems?.length} Items</h1>
 
                         <div className="container mx-auto mt-10">
-                            <div className="lg:flex shadow-md my-10">
-                                <div className="  w-full  sm:w-3/4 bg-white px-10 py-10">
+                            <div className="lg:flex  shadow-md  my-10">
+                                <div className="  w-full bg-white px-5 py-10">
                                     <div className="flex justify-between border-b pb-8">
-                                        <h1 className="font-bold text-gray-600 text-2xl">Shopping Cart</h1>
+                                        <h1 className="font-bold text-gray-600 text-2xl">Shopping Cart ({cartItems?.length})</h1>
                                     </div>
-                                    {cartItems && cartItems?.map((data) =>
-                                        <CartProducts key={data?._id} data={data} />
+                                    {cartItems && cartItems?.map((data, index) =>
+                                        <CartProducts key={index} data={data} />
                                     )
                                     }
 
-                                    <div className="lg:flex md:flex sm:flex justify-between items-center gap-5">
+                                    <div className="lg:flex md:flex sm:flex lg:justify-between md:justify-between sm:justify-between items-center gap-2">
                                         <button className=" btn_2 p-1 px-4 mt-10">
                                             <NavLink to="/products" className="flex p-2 font-semibold text-sm text-white ">
                                                 <svg className="fill-current mr-2 text-white w-4" viewBox="0 0 448 512">
@@ -71,13 +70,12 @@ const Cart = () => {
                                     </div>
                                 </div>
 
-                                <div className=" w-full   md:w-1/2     px-8 py-10">
+                                <div className=" w-full lg:w-1/2  px-8 py-10">
                                     <h1 className="font-bold text-gray-600 text-2xl border-b pb-8">Order Summary</h1>
                                     <div className="flex justify-between mt-10 mb-5">
                                         <span className="font-semibold text-sm uppercase">Total Items ({cartItems?.length})</span>
                                         <span className=" text-normal">
-                                            $ {totalPrice}
-
+                                            {currencySymbol}{totalPrice}
                                         </span>
                                     </div>
                                     <div className="flex justify-between mb-5">
@@ -85,13 +83,13 @@ const Cart = () => {
                                             Shipping
                                         </p>
                                         <p className="text-normal ">
-                                            $ {shipping}
+                                            {currencySymbol}{shipping}
                                         </p>
                                     </div>
                                     <div className="border-t mt-8">
                                         <div className="flex font-semibold justify-between py-6 text-sm uppercase">
                                             <span className="font-bold text-normal">Total </span>
-                                            <span className="font-bold text-normal text-xl"> ${totalPrice + shipping}</span>
+                                            <span className="font-bold text-normal text-xl"> {currencySymbol}{totalPrice + shipping}</span>
                                         </div>
 
                                         <button
@@ -106,7 +104,6 @@ const Cart = () => {
                             </div>
                         </div>
                     </div>
-
                     :
                     <div className="  flex justify-center ">
                         <div className="py-16 lg:max-w-[700px] flex flex-col gap-4 justify-center items-center">

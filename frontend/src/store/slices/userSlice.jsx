@@ -237,6 +237,7 @@ export const registerUser = (userData) => {
             if (data.success) {
                 dispatch(registerSuccess(data));
                 toast.success(data.message)
+                // document.location.href = '/'
                 // dispatch(clearAllErrors());
             }
 
@@ -255,6 +256,7 @@ export const loginUser = (userData) => {
             if (data.success) {
                 dispatch(loginSuccess(data));
                 toast.success(data?.message)
+                // document.location.href = '/'
             }
         } catch (error) {
             console.log(error);
@@ -288,7 +290,6 @@ export const profileUser = () => {
 
             if (data.success) {
                 dispatch(profileSuccess(data));
-                // document.location.href = '/profile'
             }
         } catch (error) {
             dispatch(profileFailed(error?.response?.data?.message))
@@ -305,7 +306,6 @@ export const updateUser = (userData) => {
             if (data.success) {
                 dispatch(updateProfileSuccess(data));
                 toast.success(data?.message)
-                document.location.href = '/profile'
             }
         } catch (error) {
             console.log(error);
@@ -323,7 +323,6 @@ export const updateProfileImage = (image) => {
             if (data.success) {
                 dispatch(updateProfileImageSuccess(data));
                 toast.success(data?.message)
-                document.location.href = '/profile'
             }
         } catch (error) {
             dispatch(updateProfileImageFailed(error?.response?.data?.message))

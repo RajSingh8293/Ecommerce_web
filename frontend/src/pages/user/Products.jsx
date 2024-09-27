@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unknown-property */
 import { useEffect, useState } from "react"
 import Layout from "../../components/Layout"
@@ -53,7 +54,7 @@ const Products = () => {
 
 
     let count = filterProductCount
-    console.log(count);
+
 
     useEffect(() => {
         window.scroll({
@@ -105,7 +106,7 @@ const Products = () => {
 
 
                                         <div>
-                                            <details className="group" close>
+                                            <details className="group" close="true">
                                                 <summary
                                                     className="flex cursor-pointer list-none items-center justify-between py-2 text-lg font-medium text-secondary-900 group-open:text-primary-500">
                                                     Types
@@ -209,22 +210,22 @@ const Products = () => {
                                         </div>
 
                                         <div>
-                                            <details class="group" close>
+                                            <details className="group" close="true">
                                                 <summary
-                                                    class="flex cursor-pointer list-none items-center justify-between py-2 text-lg font-medium text-secondary-900 group-open:text-primary-500">
+                                                    className="flex cursor-pointer list-none items-center justify-between py-2 text-lg font-medium text-secondary-900 group-open:text-primary-500">
                                                     Colors
                                                     <div>
                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
-                                                            stroke="currentColor" class="block h-5 w-5 group-open:hidden">
+                                                            stroke="currentColor" className="block h-5 w-5 group-open:hidden">
                                                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                                                         </svg>
                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
-                                                            stroke="currentColor" class="hidden h-5 w-5 group-open:block">
+                                                            stroke="currentColor" className="hidden h-5 w-5 group-open:block">
                                                             <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12h-15" />
                                                         </svg>
                                                     </div>
                                                 </summary>
-                                                <div class=" text-secondary-500">
+                                                <div className=" text-secondary-500">
                                                     <RadioGroup
                                                         aria-labelledby="demo-radio-buttons-group-label"
                                                         defaultValue="female" name="radio-buttons-group">
@@ -283,9 +284,8 @@ const Products = () => {
                                 <Loader />
                                 :
                                 <div>
-
                                     <div className="py-4">
-                                        <h1 className=" font-bold opacity-50">Showing {products?.length} Items</h1>
+                                        <h1 className=" font-bold opacity-50">Showing {products?.length} Items {category && `of ${category}`} {type}</h1>
                                     </div>
 
                                     <div className="flex gap-4 items-center justify-end py-4">
@@ -342,26 +342,6 @@ const Products = () => {
                 </div >
 
                 <Divider />
-
-                {/* {resulPerPage < count &&
-                    <div className="flex justify-end">
-                        <Pagination
-                            activePage={currentPage}
-                            itemsCountPerPage={resulPerPage}
-                            totalItemsCount={totalProducts}
-                            onChange={setCurrentPageNo}
-                            pageRangeDisplayed={5}
-                            nextPageText="Next"
-                            prevPageText="Prev"
-                            firstPageText="1st"
-                            lastPageText="Last"
-                            itemClass="page-item"
-                            linkClass="page-link"
-                            activeClass="pageItemActive"
-                            activeLinkClass="pageLinkClass"
-                        />
-                    </div>} */}
-
                 <div className="flex justify-center py-5">
                     <Pagination count={pages} onChange={setCurrentPageNo} />
                 </div>

@@ -14,6 +14,7 @@ import { backendApi } from "../../constant/backendApi"
 import { clearCartItems } from "../../store/slices/cartSlice"
 import { useState } from "react"
 import PayLoader from "../../components/PayLoader"
+import { currencySymbol } from "../../constant/currencySymbol"
 
 const Payment = () => {
     const navigate = useNavigate()
@@ -133,20 +134,20 @@ const Payment = () => {
 
                                     <button type="button"
                                         onClick={paymentSubmit}
-                                        className="w-full mt-8 py-3.5 btn_2 flex justify-center items-center"> {loading ? <PayLoader /> : `Pay- ${orderInfo?.totalPrice}`} </button>
+                                        className="w-full mt-8 py-3.5 btn_2 flex justify-center items-center"> {loading ? <PayLoader /> : `Pay- ${currencySymbol}${orderInfo?.totalPrice}`} </button>
                                 </form>
                             </div>
 
                             <div className=" bg-gray-100 p-6 rounded-md">
-                                <h2 className="text-3xl font-extrabold text-gray-800">${orderInfo?.totalPrice}</h2>
+                                <h2 className="text-3xl font-extrabold text-gray-800">{currencySymbol}{orderInfo?.totalPrice}</h2>
 
                                 <ul className="text-gray-800 mt-8 space-y-4">
                                     {cartItems && cartItems?.map((item) =>
                                         <li key={item?._id} className="flex flex-wrap gap-4 text-sm">
                                             <span>{item?.name}</span>X<span>{item?.quantity}</span>
-                                            <span className="ml-auto font-bold">${item?.price * item?.quantity}</span></li>)}
-                                    <li className="flex flex-wrap gap-4 text-sm">Tax <span className="ml-auto font-bold">${orderInfo?.tax}</span></li>
-                                    <li className="flex flex-wrap gap-4 text-sm font-bold border-t-2 pt-4">Total <span className="ml-auto">${orderInfo?.totalPrice}</span></li>
+                                            <span className="ml-auto font-bold">{currencySymbol}{item?.price * item?.quantity}</span></li>)}
+                                    <li className="flex flex-wrap gap-4 text-sm">GST Tax (18%) <span className="ml-auto font-bold">{currencySymbol}{orderInfo?.tax}</span></li>
+                                    <li className="flex flex-wrap gap-4 text-sm font-bold border-t-2 pt-4">Total <span className="ml-auto">{currencySymbol}{orderInfo?.totalPrice}</span></li>
                                 </ul>
                             </div>
                         </div>

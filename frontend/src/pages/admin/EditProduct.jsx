@@ -1,28 +1,8 @@
-/* eslint-disable no-unused-vars */
 
 import { useEffect } from 'react'
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-
-
-import { styled } from '@mui/material/styles';
-import Button from '@mui/material/Button';
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-
-
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 import { useState } from 'react';
-
-
-
-import axios from 'axios';
 import { toast } from "react-toastify";
-import Layout from '../../components/Layout';
 import Sidebar from '../../components/Sidebar';
-import { backendApi } from '../../constant/backendApi';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AdminEditProduct, fetchAdminSingleProduct } from '../../store/slices/AdminProductsSlice';
@@ -50,6 +30,8 @@ const EditProduct = () => {
     const [description, setDescription] = useState(product?.description);
     const [countInStock, setCountInStock] = useState(product?.countInStock);
 
+
+    console.log("product details :", product);
 
 
     const editeProduct = async (e) => {
@@ -88,7 +70,8 @@ const EditProduct = () => {
             toast.success(message)
         }
 
-    }, [dispatch, id, message, navigate])
+    }, [dispatch, id, message, navigate]
+    )
     return (
         // <Layout>
         <>
@@ -98,135 +81,205 @@ const EditProduct = () => {
                     <Sidebar />
 
                     <div className="lg:ml-64">
-                        <div className='flex flex-col justify-between items-center'>
-                            <h1 className='py-4 text-xl text-gray-600 font-bold'>Add Product</h1>
-                            <Box
-                                className="w-full flex gap-3 flex-col"
-                                sx={{
-                                    zIndex: -1
-                                }}
-
-                            >
+                        <div className='flex flex-col justify-between items-center '>
+                            <h1 className='py-4 text-xl text-gray-600 font-bold'>Edite Product</h1>
+                            <div className=' w-full'>
                                 <div className='grid lg:grid-cols-2 md:grid-cols-2 gap-5'>
-                                    <TextField
-                                        label="Name"
-                                        name='name'
-                                        value={name}
-                                        onChange={(e) => setName(e.target.value)}
-                                    />
-                                    <TextField
-                                        label="Type"
-                                        name='type'
-                                        value={type}
-                                        onChange={(e) => setType(e.target.value)}
-                                    />
-                                </div>
-                                <div className='grid lg:grid-cols-2 gap-5'>
-                                    <FormControl fullWidth>
-                                        <InputLabel>Category</InputLabel>
-                                        <Select
-                                            label="Category"
-                                            name='category'
-                                            multiline
-                                            value={category}
-                                            onChange={(e) => setCategory(e.target.value)}
-                                        >
-                                            <MenuItem value="Men">Men</MenuItem>
-                                            <MenuItem value="Women">Women</MenuItem>
-                                            <MenuItem value="Kids">Kids</MenuItem>
-                                        </Select>
-                                    </FormControl>
-
-                                    <FormControl fullWidth>
-                                        <InputLabel>SubCategory</InputLabel>
-                                        <Select
-                                            label="Sub Category"
-                                            name='subCategory'
-                                            value={subCategory}
-                                            onChange={(e) => setSubCategory(e.target.value)}
-                                        >
-                                            <MenuItem value="Top">Top</MenuItem>
-                                            <MenuItem value="Bottom">Bottom</MenuItem>
-                                        </Select>
-                                    </FormControl>
-
+                                    <div>
+                                        <label htmlFor="email" className="block w-full text-sm font-medium leading-6 text-gray-900">
+                                            Product Name
+                                        </label>
+                                        <div className="">
+                                            <input
+                                                type='text'
+                                                name='name'
+                                                value={name}
+                                                onChange={(e) => setName(e.target.value)}
+                                                placeholder="Casual Shirt"
+                                                required
+                                                className="px-4 block w-full border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-none focus:ring-[tomato] focus:ring-2  sm:text-sm sm:leading-6"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                                            Product Type
+                                        </label>
+                                        <div className="">
+                                            <input
+                                                type='text'
+                                                name='type'
+                                                value={type}
+                                                onChange={(e) => setType(e.target.value)}
+                                                placeholder="Shirts, Pants etc"
+                                                required
+                                                className="px-4 block w-full border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-none focus:ring-[tomato] focus:ring-2  sm:text-sm sm:leading-6"
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <div className='grid lg:grid-cols-2 gap-5'>
-                                    <FormControl fullWidth>
-                                        <InputLabel>Color</InputLabel>
-                                        <Select
-                                            label="Color"
-                                            name='color'
-                                            multiline
-                                            value={color}
-                                            onChange={(e) => setColor(e.target.value)}
-                                        >
-                                            {filterByColor?.map((color) =>
-                                                <MenuItem key={color} value={color}>{color}</MenuItem>
-                                            )}
-                                        </Select>
-                                    </FormControl>
-
-                                    <FormControl fullWidth>
-                                        <InputLabel>Featured</InputLabel>
-                                        <Select
-                                            label="Featured"
-                                            name='featured'
-                                            value={featured}
-                                            onChange={(e) => setFeatured(e.target.value)}
-                                        >
-                                            <MenuItem value="true">Yes</MenuItem>
-                                            <MenuItem value="false">No</MenuItem>
-                                        </Select>
-                                    </FormControl>
+                                <div className='grid lg:grid-cols-2 md:grid-cols-2 gap-5'>
+                                    <div>
+                                        <label htmlFor="Category" className="block w-full text-sm font-medium leading-6 text-gray-900">
+                                            Product Category
+                                        </label>
+                                        <div className="mt-2">
+                                            <select
+                                                label="Category"
+                                                name='category'
+                                                value={category}
+                                                onChange={(e) => setCategory(e.target.value)}
+                                                className="px-4 block w-full border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-none focus:ring-[tomato] focus:ring-2  sm:text-sm sm:leading-6"
+                                            >
+                                                <option value="Men">Men</option>
+                                                <option value="Women">Women</option>
+                                                <option value="Kids">Kids</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                                            Sub Category
+                                        </label>
+                                        <div className="mt-2">
+                                            <select
+                                                label="Sub Category"
+                                                name='subCategory'
+                                                value={subCategory}
+                                                onChange={(e) => setSubCategory(e.target.value)}
+                                                className="px-4 block w-full border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-none focus:ring-[tomato] focus:ring-2  sm:text-sm sm:leading-6"
+                                            >
+                                                <option value="Top">Top</option>
+                                                <option value="Bottom">Bottom</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <div className='grid lg:grid-cols-2 gap-5'>
-                                    <TextField
-                                        label="Price"
-                                        name='price'
-                                        value={price}
-                                        onChange={(e) => setPrice(e.target.value)}
-                                    />
-                                    <TextField
-                                        label="Count In-Stock"
-                                        name='countInStock'
-                                        value={countInStock}
-                                        onChange={(e) => setCountInStock(e.target.value)}
-                                    />
+                                <div className='grid lg:grid-cols-2 md:grid-cols-2 gap-5'>
+                                    <div>
+                                        <label htmlFor="Category" className="block w-full text-sm font-medium leading-6 text-gray-900">
+                                            Color
+                                        </label>
+                                        <div className="mt-2">
+                                            <select
+                                                name='color'
+                                                value={color}
+                                                onChange={(e) => setColor(e.target.value)}
+                                                className="px-4 block w-full border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-none focus:ring-[tomato] focus:ring-2  sm:text-sm sm:leading-6"
+                                            >
+                                                {filterByColor?.map((color) =>
+                                                    <option key={color}>{color}</option>
+                                                )}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                                            Featured
+                                        </label>
+                                        <div className="mt-2">
+                                            <select
+                                                name='featured'
+                                                value={featured}
+                                                onChange={(e) => setFeatured(e.target.value)}
+                                                className="px-4 block w-full border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-none focus:ring-[tomato] focus:ring-2  sm:text-sm sm:leading-6"
+                                            >
+                                                <option value="true">Yes</option>
+                                                <option value="false">No</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className='grid lg:grid-cols-2 gap-5'>
-                                    <TextField
-                                        label="Title"
-                                        name='title'
-                                        value={title}
-                                        onChange={(e) => setTitle(e.target.value)}
-                                    />
-                                    <TextField
-                                        label="Description"
-                                        name='description'
-                                        value={description}
-                                        onChange={(e) => setDescription(e.target.value)}
-                                    />
+
+
+
+                                <div className='grid lg:grid-cols-2 md:grid-cols-2 gap-5'>
+                                    <div>
+                                        <label htmlFor="email" className="block w-full text-sm font-medium leading-6 text-gray-900">
+                                            Price
+                                        </label>
+                                        <div className="mt-2">
+                                            <input
+                                                type='number'
+                                                name='price'
+                                                value={price}
+                                                onChange={(e) => setPrice(e.target.value)}
+                                                placeholder="999"
+                                                required
+                                                className="px-4 block w-full border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-none focus:ring-[tomato] focus:ring-2  sm:text-sm sm:leading-6"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                                            Product Count
+                                        </label>
+                                        <div className="mt-2">
+                                            <input
+                                                type='number'
+                                                name='countInStock'
+                                                value={countInStock}
+                                                onChange={(e) => setCountInStock(e.target.value)}
+                                                placeholder="120"
+                                                required
+                                                className="px-4 block w-full border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-none focus:ring-[tomato] focus:ring-2  sm:text-sm sm:leading-6"
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
 
 
 
-                                <div>
-                                    <Button
+                                <div className='grid lg:grid-cols-2 md:grid-cols-2 gap-5'>
+                                    <div>
+                                        <label htmlFor="email" className="block w-full text-sm font-medium leading-6 text-gray-900">
+                                            Title
+                                        </label>
+                                        <div className="mt-2">
+                                            <input
+                                                type='text'
+                                                name='title'
+                                                value={title}
+                                                onChange={(e) => setTitle(e.target.value)}
+                                                placeholder="Casual shit for man"
+                                                required
+                                                className="px-4 block w-full border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-none focus:ring-[tomato] focus:ring-2  sm:text-sm sm:leading-6"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                                            Product Count
+                                        </label>
+                                        <div className="mt-2">
+                                            <input
+                                                type='text'
+                                                name='description'
+                                                value={description}
+                                                onChange={(e) => setDescription(e.target.value)}
+                                                placeholder="Description"
+                                                required
+                                                className="px-4 block w-full border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 outline-none focus:ring-[tomato] focus:ring-2  sm:text-sm sm:leading-6"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className='pt-4 w-full'>
+                                    <button
                                         type='submit'
                                         onClick={editeProduct}
-                                        className='hover:bg-[tomato]'
-                                        sx={{
-                                            backgroundColor: "black",
-                                            color: "white",
-                                            padding: "10px 20px",
-                                        }} >Create Product</Button>
+                                        className='btn_2 w-full'
+                                    >
+                                        Update
+
+                                    </button>
                                 </div>
+                            </div>
 
 
-                            </Box>
                         </div>
                     </div>
                 </div>

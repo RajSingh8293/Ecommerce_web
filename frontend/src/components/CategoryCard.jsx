@@ -4,17 +4,18 @@ import { Link } from "react-router-dom"
 const CategoryCard = ({ filterData, item }) => {
 
     return (
-        <div className="cursor-pointer categoryCard bg-pink-100  mx-2 p-2" onClick={() => filterData(item)}>
+        <div className="cursor-pointe relative border-2 border-transparent hover:border-2 hover:border-black w-[300px] h-[300px]  p-5" onClick={() => filterData(item)}>
             <Link to={`/products`}>
-                <div className="flex justify-center items-center flex-col ">
-                    <h1 className="text-blue-500 text-2xl w-[50px] h-[50px] pb-2">
+                <div className=" ">
+                    <h1 className="text-blue-500 text-2xl">
                         <img className="w-full h-full" src={item?.icon} alt="icon" />
                     </h1>
-
-                    <span>
-                        {item?.name}
-                    </span>
                 </div>
+            </Link>
+            <Link to={`/products`}>
+                <button className=" absolute top-0 left-0 btn_2">
+                    {item?.name}
+                </button>
             </Link>
         </div>
     )

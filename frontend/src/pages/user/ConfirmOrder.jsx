@@ -9,6 +9,7 @@ import { backendApi } from "../../constant/backendApi";
 
 import { createOrder } from "../../store/slices/orderSlice";
 import { toast } from "react-toastify";
+import { currencySymbol } from "../../constant/currencySymbol";
 
 
 
@@ -100,15 +101,27 @@ const ConfirmOrder = () => {
                                             <div className="h-[70px] flex justify-center items-center">
                                                 <img className="h-[100%]" src={item?.productImage?.url} alt="" />
                                             </div>
+                                            <div>
+                                                <p>
+                                                    <span className="text-gray-800 text-sm">Name: </span>
+                                                    <span className="text-gray-600 text-sm ml-3">{item?.name}</span>
+                                                </p>
+                                                <p>
+                                                    <span className="text-gray-800 text-sm">Size : </span>
+                                                    <span className="text-gray-600 text-sm ml-3">{item?.size}</span>
+                                                </p>
+                                                <p>
+                                                    <span className="text-gray-800 text-sm"> Color : </span>
+                                                    <span className="text-gray-600 text-sm ml-3">{item?.color}</span>
+                                                </p>
 
-                                            <NavLink to={`/product-details/${item?._id}`}>
-                                                {item?.name}
-                                            </NavLink>
+                                            </div>
+
                                             <p>
                                                 <span>
                                                     {item?.quantity} X {item?.price} =
                                                 </span>
-                                                <span> ${item?.quantity * item?.price}</span>
+                                                <span> {currencySymbol}{item?.quantity * item?.price}</span>
                                             </p>
                                         </div>
                                     ))}
@@ -121,23 +134,23 @@ const ConfirmOrder = () => {
                         </h1>
                         <div className="mb-2 flex justify-between">
                             <p className="text-gray-700">Subtotal :</p>
-                            <p className="text-gray-700">$ {subtotal}</p>
+                            <p className="text-gray-700">{currencySymbol} {subtotal}</p>
                         </div>
                         <div className="mb-2 flex justify-between">
                             <p className="text-gray-700">Shipping Fee : </p>
-                            <p className="text-gray-700">$ {shippingCharge}</p>
+                            <p className="text-gray-700">{currencySymbol} {shippingCharge}</p>
                         </div>
                         <div className=" mb-2 flex justify-between">
                             <p className="text-gray-700">
                                 GST <span className="text-sm">(18%)</span> :
                             </p>
-                            <p className="text-gray-700">$ {tax}</p>
+                            <p className="text-gray-700">{currencySymbol} {tax}</p>
                         </div>
                         <hr className="my-4" />
                         <div className="flex justify-between">
                             <p className="text-lg font-bold">Total</p>
                             <div className="">
-                                <p className="mb-1 text-lg font-bold">$ {totalPrice}</p>
+                                <p className="mb-1 text-lg font-bold">{currencySymbol} {totalPrice}</p>
                             </div>
                         </div>
                         <button

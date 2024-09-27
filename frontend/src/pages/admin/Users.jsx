@@ -48,7 +48,6 @@ const Users = () => {
                         <div className=" mt-10">
                             <TableContainer component={Paper}>
                                 <Table sx={{ minWidth: 650 }} aria-label="caption table">
-                                    <caption>A basic table example with a caption</caption>
                                     <TableHead>
                                         <TableRow>
                                             <TableCell>Id</TableCell>
@@ -99,11 +98,8 @@ const Users = () => {
 
 
                         </div>
-
-
                     </div>
                     <div className="flex justify-center py-5">
-                        {/* <Pagination count={10} onChange={setCurrentPageNo} /> */}
                         {/* <Pagination count={pages} onChange={setCurrentPageNo} /> */}
                     </div>
                 </div>

@@ -159,7 +159,7 @@ export const fetchAdminProducts = (currentPage = 1) => async (dispatch) => {
 
         let queryParams = [];
         // if (searchKeyword) {
-        //     queryParams.push(`keyword=${searchKeyword}`);
+        //     queryParams.push(`searchKeyword=${searchKeyword}`);
         // }
         if (currentPage) {
             queryParams.push(`page=${currentPage}`);
@@ -227,7 +227,8 @@ export const AdminEditProduct = (editeData, id) => async (dispatch) => {
     try {
         const { data } = await axios.put(`${backendApi}/api/v1/admin/products/update/${id}`,
             editeData,
-            axiosConfig)
+            axiosConfig
+        )
         if (data?.success) {
             dispatch(successEditProduct(data))
             toast.success(data?.message)

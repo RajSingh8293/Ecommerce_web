@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { fetchSingleOrder } from "../../store/slices/orderSlice"
 import { Link, useParams } from "react-router-dom"
 import Layout from "../../components/Layout"
+import { currencySymbol } from "../../constant/currencySymbol"
 
 
 const MyOrdersDetailes = () => {
@@ -110,7 +111,7 @@ const MyOrdersDetailes = () => {
                                                         : `text-red-900 text-xl`
                                                 }
                                             >
-                                                ${order?.totalPrice}
+                                                {currencySymbol}{order?.totalPrice}
                                             </span>
                                         </p>
                                     </div>
@@ -137,7 +138,14 @@ const MyOrdersDetailes = () => {
                                                             <span>
                                                                 Size:
                                                             </span>
-                                                            <span className="text-gray-500">S</span>
+                                                            <span className="text-gray-500">{orderItem?.size}</span>
+                                                        </p>
+                                                        <p
+                                                            className="flex gap-4 items-center font-medium text-sm text-black pr-4 mr-4 border-r border-gray-200">
+                                                            <span>
+                                                                Color:
+                                                            </span>
+                                                            <span className="text-gray-500">{orderItem?.color}</span>
                                                         </p>
                                                         <p className="flex gap-4 items-center font-medium text-sm text-black ">
                                                             <span>
@@ -155,23 +163,10 @@ const MyOrdersDetailes = () => {
                                                 <div className="col-span-5 lg:col-span-1 flex items-center max-lg:mt-3">
                                                     <div className="flex gap-3 lg:block">
                                                         <p className="font-bold text-sm  text-black">Price</p>
-                                                        <p className="lg:mt-4 font-semibold text-sm ">${orderItem?.price}</p>
+                                                        <p className="lg:mt-4 font-semibold text-sm ">{currencySymbol}{orderItem?.price}</p>
                                                     </div>
                                                 </div>
                                                 <div className="col-span-5 lg:col-span-2 flex items-center max-lg:mt-3 ">
-                                                    <div className="flex gap-3 lg:block items-center">
-                                                        <p className="font-bold text-sm  text-black">
-                                                            Status
-                                                        </p>
-                                                        <p
-                                                            className={order?.paymentInfo?.orderStatus === `Delivered`
-                                                                ? `text-green-800 font-medium text-sm leading-6 whitespace-nowrap bg-emerald-50 py-0.5 px-3 rounded-full lg:mt-3 `
-                                                                : `text-[red] font-medium text-sm leading-6 whitespace-nowrap bg-emerald-100 py-0.5 px-3 rounded-full lg:mt-3 `}>
-                                                            {order?.orderStatus}
-                                                        </p>
-                                                    </div>
-                                                    {/* font-medium text-sm leading-6 whitespace-nowrap bg-emerald-50 py-0.5 px-3 rounded-full lg:mt-3  */}
-
                                                 </div>
                                                 <div className="col-span-5 lg:col-span-2 flex items-center max-lg:mt-3">
                                                     <div className="flex gap-3 lg:block items-center">
@@ -181,7 +176,6 @@ const MyOrdersDetailes = () => {
                                                             23rd December 2024
                                                         </p>
                                                     </div>
-
                                                 </div>
                                             </div>
                                         </div>

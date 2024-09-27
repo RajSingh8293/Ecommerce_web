@@ -2,15 +2,19 @@
 import { useDispatch, useSelector } from "react-redux"
 import { decrementQuantity, incrementQuantity, removeFromCart } from "../store/slices/cartSlice"
 import { addFavorateItem, removeFavorateItem } from "../store/slices/favorateProductsSlice"
+import { currencySymbol } from "../constant/currencySymbol"
 
 
 const CartProducts = ({ data }) => {
     const dispatch = useDispatch()
     const { favorateItems } = useSelector((state) => state.favorateItems)
+    // const { cartItems } = useSelector((state) => state.cartItems)
     const existItem = favorateItems?.find((item) => item?._id === data?._id)
 
+
+
     return (
-        <div className="md:flex items-strech py-8 md:py-10 lg:py-8 border-t border-gray-50">
+        <div className="md:flex items-strech py-5 md:py-10 lg:py-8 border-t border-gray-50">
             <div className="md:w-4/12 2xl:w-1/4 w-full flex justify-center">
                 <img src={data?.productImage?.url} alt="Black Leather Purse" className=" lg:h-[150px] md:h-[150px] object-center object-cover" />
 
@@ -54,14 +58,14 @@ const CartProducts = ({ data }) => {
                         </form>
                     </div>
                 </div>
-                <p className="text-xs leading-3 text-gray-600 py-4">Color: Black</p>
+                <p className="text-xs leading-3 text-gray-600 pt-4">Color: {data?.color}</p>
+                <p className="text-xs leading-3 text-gray-600 py-4">Size: {data?.size}</p>
                 <p className="w-96 text-xs leading-3 text-gray-600">Composition: 100% calf leather</p>
                 <div className="flex items-center justify-between pt-5">
                     <div className="flex items-center">
                         {existItem ?
                             <button
                                 onClick={() => dispatch(removeFavorateItem(data))}
-
                                 className="text-xs leading-3 underline text-red-500 cursor-pointer">
                                 Remove to favorites
                             </button>
@@ -77,7 +81,7 @@ const CartProducts = ({ data }) => {
                             onClick={() => dispatch(removeFromCart(data))}
                             className="text-xs leading-3 underline text-red-500 pl-5 cursor-pointer">Remove</button>
                     </div>
-                    <p className="text-sm font-bold text-gray-800">${data?.quantity * data?.price}</p>
+                    <p className="text-sm font-bold text-gray-800">{currencySymbol}{data?.quantity * data?.price}</p>
                 </div>
             </div>
         </div>
@@ -85,3 +89,5 @@ const CartProducts = ({ data }) => {
 }
 
 export default CartProducts
+
+

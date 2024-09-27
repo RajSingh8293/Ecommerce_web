@@ -27,7 +27,8 @@ const cartSlice = createSlice({
             if (existItem) {
                 existItem.quantity++
             } else {
-                state.cartItems.push({ ...action.payload, quantity: 1 })
+                state.cartItems.push({ ...action.payload })
+                // state.cartItems.push({ ...action.payload, quantity: 1, })
             }
             localStorage.setItem('cartItems', JSON.stringify(state.cartItems))
             toast.success('Item added to shopping cart')
@@ -46,7 +47,9 @@ const cartSlice = createSlice({
             localStorage.setItem('cartItems', JSON.stringify(state.cartItems))
         },
         decrementQuantity: (state, action) => {
+
             const item = state.cartItems.find((item) => item._id === action.payload)
+
             if (item.quantity === 1) {
                 item.quantity = 1
             } else {

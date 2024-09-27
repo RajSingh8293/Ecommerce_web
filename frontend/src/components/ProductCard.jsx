@@ -6,6 +6,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { Link } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux";
 import { addFavorateItem, removeFavorateItem } from "../store/slices/favorateProductsSlice";
+import { currencySymbol } from "../constant/currencySymbol";
 
 
 const ProductCard = ({ item }) => {
@@ -26,7 +27,7 @@ const ProductCard = ({ item }) => {
 
         <>
             <div className="relative productCard mx-2 rounded overflow-hidden shadow-lg">
-                <div className="flex justify-center w-full h-[200px]  overflow-hidden">
+                <div className="flex justify-center w-full h-[200px]  overflow-hidden p-2">
                     <Link to={`/product/${item?._id}`}>
                         <img className="h-full w-full object-cover " src={item?.productImage?.url} alt="Shirt" />
                     </Link>
@@ -62,7 +63,7 @@ const ProductCard = ({ item }) => {
                         </Link>
 
                         <p className="text-gray-700 text-xs">
-                            Rs. {item?.price}
+                            {currencySymbol}{item?.price}
                         </p>
                     </div>
                 </div>
@@ -76,25 +77,6 @@ const ProductCard = ({ item }) => {
 
 
             </div >
-
-            {/* <div>
-                <div className="max-w-sm rounded overflow-hidden shadow-lg">
-                    <div className="h-[200px] overflow-hidden">
-                        <img className=" h-full" src={item?.productImage?.url} alt="Sunset in the mountains" />
-                    </div>
-                    <div className="px-6 py-4">
-                        <div className="font-bold text-xl mb-2">The Coldest Sunset</div>
-                        <p className="text-gray-700 text-base">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, nulla! Maiores et perferendis eaque, exercitationem praesentium nihil.
-                        </p>
-                    </div>
-                    <div className="px-6 pt-4 pb-2">
-                        <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#photography</span>
-                        <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#travel</span>
-                        <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#winter</span>
-                    </div>
-                </div>
-            </div> */}
         </>
 
 

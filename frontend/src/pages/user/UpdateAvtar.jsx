@@ -62,19 +62,25 @@ const UpdateAvtar = ({ closeImageModal, open }) => {
 
                     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                         <form action="#" method="POST" className="space-y-6">
-                            <div className=" grid grid-cols-4 gap-3">
-                                <img src={imagePreview} alt="" />
-                            </div>
 
-                            <div className=" flex flex-col gap-3">
-                                <input
-                                    type="file"
-                                    accept='image/*'
-                                    name='avtar'
-                                    onChange={onchangeFileHandler}
-                                    className='w-full h-full border rounded outline-none py-1 px-2'
-                                    placeholder=' '
-                                />
+                            <div className='flex justify-center items-center gap-5'>
+                                <div className="">
+                                    <input type="file"
+                                        accept='image/*'
+                                        name='avtar'
+                                        onChange={onchangeFileHandler}
+                                        id="upload"
+                                        required
+                                        hidden />
+                                    <label htmlFor="upload" className=''>
+                                        <img className='h-[80px] border-2 border-dotted rounded-lg p-5' src="/src/assets/upload_img.png" alt="" />
+                                    </label>
+                                </div>
+                                {
+                                    imagePreview && <div className="">
+                                        <img className='h-[100px]' src={imagePreview} alt="" />
+                                    </div>
+                                }
                             </div>
 
                             <div>

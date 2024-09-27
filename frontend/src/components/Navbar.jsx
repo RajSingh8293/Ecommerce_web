@@ -103,6 +103,11 @@ const Navbar = () => {
                                     Products
                                 </NavLink>
                             </li>
+                            <li >
+                                <NavLink to='/contact' className="navLinks text-gray-600 font-semibold">
+                                    Contact
+                                </NavLink>
+                            </li>
                             {isAuthenticated && user?.role === "admin" && <li>
                                 <NavLink to='/dashboard' className="navLinks text-gray-600 font-semibold">
                                     Dasboard
@@ -170,41 +175,42 @@ const Navbar = () => {
 
 
 
-                    {open && <div className=" bg-white absolute mt-2 top-16 right-5 border shadow-lg p-4 ">
-                        <ul className="flex flex-col gap-4">
-                            <li className="" onClick={() => handleClick(!open)}>
-                                <NavLink to='/profile' className="flex gap-2  items-center">
-                                    <span>
-                                        <AccountCircleIcon />
-                                    </span>
-                                    <span>
-                                        Profile
-                                    </span>
+                    {open &&
+                        <div className=" bg-white absolute mt-2 top-16 right-5 border shadow-lg p-4 ">
+                            <ul className="flex flex-col gap-4">
+                                <li className="" onClick={() => handleClick(!open)}>
+                                    <NavLink to='/profile' className="flex gap-2  items-center">
+                                        <span>
+                                            <AccountCircleIcon />
+                                        </span>
+                                        <span>
+                                            Profile
+                                        </span>
 
-                                </NavLink>
-                            </li>
-                            <li className="" onClick={() => handleClick(!open)}>
-                                <NavLink to='/my-orders' className="flex gap-2  items-center">
+                                    </NavLink>
+                                </li>
+                                <li className="" onClick={() => handleClick(!open)}>
+                                    <NavLink to='/my-orders' className="flex gap-2  items-center">
+                                        <span>
+                                            <PersonAddIcon />
+                                        </span>
+                                        <span>
+                                            My Orders
+                                        </span>
+
+                                    </NavLink>
+                                </li>
+                                <button onClick={logoutUserHandler} className='flex   gap-2 items-center'>
                                     <span>
-                                        <PersonAddIcon />
+                                        <LogoutIcon fontSize="small" />
                                     </span>
                                     <span>
-                                        My Orders
+                                        Logout
                                     </span>
+                                </button>
+                            </ul>
 
-                                </NavLink>
-                            </li>
-                            <button onClick={logoutUserHandler} className='flex   gap-2 items-center'>
-                                <span>
-                                    <LogoutIcon fontSize="small" />
-                                </span>
-                                <span>
-                                    Logout
-                                </span>
-                            </button>
-                        </ul>
-
-                    </div>
+                        </div>
                     }
 
                     {

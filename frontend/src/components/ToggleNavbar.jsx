@@ -13,6 +13,8 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutUser } from '../store/slices/userSlice';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+
 
 const ToggleNavbar = () => {
     const navigate = useNavigate()
@@ -48,17 +50,14 @@ const ToggleNavbar = () => {
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
+
     const handleClose = () => {
         setAnchorEl(null);
-
     };
-
-
 
     const logoutUserHandler = async () => {
         dispatch(logoutUser())
     }
-
 
     return (
         <div>
@@ -88,6 +87,7 @@ const ToggleNavbar = () => {
                             <NavLink to="/dashboard" className="navLinks text-white">Dashboard</NavLink>
                         </ListItemButton>
                     </ListItem>}
+
                     {user ?
                         ""
                         :
@@ -116,20 +116,22 @@ const ToggleNavbar = () => {
                                     aria-haspopup="true"
                                     aria-expanded={open ? 'true' : undefined}
                                 >
-                                    {user && <Avatar
-                                        // onClick={() => handleClick(!open)} 
-                                        onClick={handleClick}
-                                        className="capitalize" sx={{ width: 32, height: 32, backgroundColor: "tomato", color: "white", fontWeight: "bold" }}>
-
-                                        {
-                                            user?.avtar?.url ?
-                                                <img className="w-full h-full" src={user?.avtar?.url} alt="" />
-                                                :
-                                                user?.username?.slice(0, 1)
-                                        }
-                                    </Avatar>}
+                                    {user &&
+                                        <Avatar
+                                            // onClick={() => handleClick(!open)} 
+                                            onClick={handleClick}
+                                            className="capitalize" sx={{ width: 32, height: 32, backgroundColor: "tomato", color: "white", fontWeight: "bold" }}>
+                                            {
+                                                user?.avtar?.url ?
+                                                    <img className="w-full h-full" src={user?.avtar?.url} alt="" />
+                                                    :
+                                                    user?.username?.slice(0, 1)
+                                            }
+                                        </Avatar>
+                                    }
                                 </IconButton>
                             </ListItem>
+
 
 
                             <Menu
@@ -144,7 +146,6 @@ const ToggleNavbar = () => {
                                         sx: {
                                             overflow: 'visible',
                                             filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-                                            mt: 1.5,
                                             '& .MuiAvatar-root': {
                                                 width: 32,
                                                 height: 32,
@@ -172,18 +173,12 @@ const ToggleNavbar = () => {
                                     <Avatar /> <NavLink to='/profile'>Profile</NavLink>
                                 </MenuItem>
                                 <MenuItem onClick={handleClose}>
-                                    <Avatar /> <NavLink to='/profile'>My account</NavLink>
-                                </MenuItem>
-                                <MenuItem onClick={handleClose}>
                                     <ListItemIcon >
                                         <PersonAddIcon fontSize="small" />
                                     </ListItemIcon>
-                                    <NavLink to='/myorders'>My Orders</NavLink>
+                                    <NavLink to='/my-orders'>My Orders</NavLink>
                                 </MenuItem>
-
-
                                 <MenuItem onClick={handleClose}>
-
                                     <button onClick={logoutUserHandler} className='flex items-center'>
                                         <ListItemIcon >
                                             <LogoutIcon fontSize="small" />
@@ -197,9 +192,6 @@ const ToggleNavbar = () => {
                         :
                         ""
                     }
-
-
-
                 </List>
             </Box >
         </div >

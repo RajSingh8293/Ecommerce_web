@@ -3,6 +3,7 @@ import Layout from '../../components/Layout'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { fetchMyOrders } from '../../store/slices/orderSlice'
+import { currencySymbol } from '../../constant/currencySymbol'
 
 const MyOrders = () => {
     const navigate = useNavigate()
@@ -33,7 +34,7 @@ const MyOrders = () => {
 
 
                                 <th scope="col" className="px-6 py-3 capitalize text-black font-bold">
-                                    Qty
+                                    Items
                                 </th>
                                 <th scope="col" className="px-6 py-3 capitalize text-black font-bold">
                                     Total Amount
@@ -64,8 +65,7 @@ const MyOrders = () => {
 
 
                                     <td className="px-6 py-4">{order?.orderItems?.length}</td>
-                                    <td className="px-6 py-4">¥{order?.totalPrice}</td>
-
+                                    <td className="px-6 py-4">{currencySymbol}{order?.totalPrice}</td>
                                     <td
                                         className={`text-sm text-gray-800 ${order.orderStatus === `Delivered`
                                             ? `text-green-800 font-semibold`

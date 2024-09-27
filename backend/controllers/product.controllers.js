@@ -86,29 +86,15 @@ export const allProducts = asyncHandler(async (req, res) => {
 
 export const adminAllProducts = asyncHandler(async (req, res) => {
   try {
-    const { city, category, searchKeyword } = req.query;
-    const resulPerPage = 20; // per page 10 items
+    const resulPerPage = 20; // per page 20 items
     const totalProducts = await Product.countDocuments();
     const currentPage = parseInt(req.query.page) || 1;
     const skip = resulPerPage * (currentPage - 1);
 
-    const query = {};
-    if (searchKeyword) {
-      query.$or = [
-        { name: { $regex: searchKeyword, $options: "i" } },
-        // { title: { $regex: searchKeyword, $options: "i" } },
-        // { description: { $regex: searchKeyword, $options: "i" } },
-        // { type: { $regex: searchKeyword, $options: "i" } },
-      ];
-    }
-
-    console.log("req.query :", req.query);
-
     const pages = Math.ceil(totalProducts / resulPerPage);
-    const products = await Product.find(query).limit(resulPerPage).skip(skip);
+    const products = await Product.find().limit(resulPerPage).skip(skip);
     const filterProductCount = products.length;
 
-    // console.log("products :", products);
     if (!products) {
       res.status(400).json({
         success: false,

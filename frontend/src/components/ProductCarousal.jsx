@@ -13,12 +13,15 @@ const responsive = {
 
 const ProductCarousal = ({ products }) => {
     const items = products?.map((item) => <ProductCard item={item} key={item} />)
+    console.log("items :", items);
+
 
     return (
         <>
             <AliceCarousel
                 mouseTracking
                 disableButtonsControls
+                disableDotsControls
                 responsive={responsive}
                 items={items}
                 autoPlay

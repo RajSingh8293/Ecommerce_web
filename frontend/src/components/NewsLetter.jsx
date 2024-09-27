@@ -5,8 +5,8 @@ import { HiOutlineHandRaised } from "react-icons/hi2";
 const NewsLetter = () => {
     return (
         <>
-            <div className="relative isolate overflow-hidden text-black bg-pink-50 py-16 sm:py-24 lg:py-32">
-                <div className="mx-auto max-w-7xl px-6 lg:px-8">
+            <div className="relative isolate overflow-hidden text-black bg-white ">
+                <div className="mx-auto max-w-7xl px-5 py-16 lg:px-8 newsLetter">
                     <div className="mx-auto grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:max-w-none lg:grid-cols-2">
                         <div className="max-w-xl lg:max-w-lg">
                             <h2 className="text-3xl font-bold tracking-tight tomato sm:text-4xl capitalize">Subscribe to our newsletter.</h2>
@@ -53,6 +53,7 @@ const NewsLetter = () => {
                         </dl>
                     </div>
                 </div>
+
             </div>
         </>
     )

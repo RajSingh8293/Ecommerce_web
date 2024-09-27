@@ -38,6 +38,9 @@ import AdminProtectedRoute from './protectedRoutes/AdminProtectedRoute'
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import AdminProfile from './pages/admin/AdminProfile'
+import NoPage from './pages/user/NoPage'
+import Contact from './pages/user/Contact'
+import SearchPage from './pages/user/SearchPage'
 // import env from "react-dotenv";
 
 const stripePromise = loadStripe(`${import.meta.env.VITE_API_STRIP_PUBLIC_KEY}`);
@@ -57,74 +60,16 @@ function App() {
       element: <Home />,
     },
     {
+      path: "*",
+      element: <NoPage />,
+    },
+    {
       path: "/login",
       element: <Login />,
     },
     {
       path: "/register",
       element: <Register />,
-    },
-    {
-      path: "/profile",
-      // element: <Profile />,
-      element: <UserProtectedRoute Comp={Profile} />
-    },
-    {
-      path: "/my-orders",
-      // element: <MyOrders />,
-      element: <UserProtectedRoute Comp={MyOrders} />
-    },
-    {
-      path: "/my-orders/details/:id",
-      // element: <MyOrdersDetailes />,
-      element: <UserProtectedRoute Comp={MyOrdersDetailes} />
-    },
-    {
-      path: "/update-profile",
-      // element: <UpdateProfile />,
-      element: <UserProtectedRoute Comp={UpdateProfile} />
-    },
-    {
-      path: "/update-avtar",
-      // element: <UpdateAvtar />,
-      element: <UserProtectedRoute Comp={UpdateAvtar} />
-    },
-    {
-      path: "/favorate-products",
-      element: <FavorateProducts />,
-    },
-    {
-      path: "/cart",
-      element: <Cart />,
-    },
-    {
-      path: "/checkout",
-      // element: <Checkout />,
-      element: <UserProtectedRoute Comp={Checkout} />
-    },
-    {
-      path: "/confirm-order",
-      // element: <ConfirmOrder />,
-      element:
-        <UserProtectedRoute Comp={ConfirmOrder} />
-    },
-    {
-      path: "/payment",
-      // element: <Payment />,
-      element: <Elements stripe={stripePromise}>
-
-        <UserProtectedRoute Comp={Payment} />
-      </Elements>
-    },
-    {
-      path: "/success",
-      // element: <Success />,
-      element: <UserProtectedRoute Comp={Success} />
-    },
-    {
-      path: "/cancel",
-      // element: <Cancel />,
-      element: <UserProtectedRoute Comp={Cancel} />
     },
     {
       path: "/forgot-password",
@@ -142,40 +87,129 @@ function App() {
       path: "/products",
       element: <Products />,
     },
+    // {
+    //   path: "/products/:keyword",
+    //   element: <Products />,
+    // },
     {
-      path: "/products/:keyword",
-      element: <Products />,
+      path: "/seacrh/:keyword",
+      element: <SearchPage />,
     },
     {
       path: "/product/:id",
       element: <SingleProduct />,
     },
+    {
+      path: "/profile",
+      element:
+        <UserProtectedRoute>
+          <Profile />
+        </UserProtectedRoute>
+    },
+    {
+      path: "/my-orders",
+      element:
+        <UserProtectedRoute>
+          <MyOrders />
+        </UserProtectedRoute>
+    },
+    {
+      path: "/my-orders/details/:id",
+      // element: <MyOrdersDetailes />,
+      element:
+        <UserProtectedRoute>
+          <MyOrdersDetailes />
+        </UserProtectedRoute>
+    },
+    {
+      path: "/update-profile",
+      element:
+        <UserProtectedRoute>
+          <UpdateProfile />
+        </UserProtectedRoute>
+    },
+    {
+      path: "/update-avtar",
+      element:
+        <UserProtectedRoute>
+          <UpdateAvtar />
+        </UserProtectedRoute>
+    },
+    {
+      path: "/favorate-products",
+      element: <FavorateProducts />,
+    },
+    {
+      path: "/cart",
+      element: <Cart />,
+    },
+    {
+      path: "/contact",
+      element: <Contact />,
+    },
+    {
+      path: "/checkout",
+      element:
+        <UserProtectedRoute>
+          <Checkout />
+        </UserProtectedRoute>
+    },
+    {
+      path: "/confirm-order",
+      element:
+        <UserProtectedRoute>
+          <ConfirmOrder />
+        </UserProtectedRoute>
+    },
+    {
+      path: "/payment",
+      element: <Elements stripe={stripePromise}>
+        <UserProtectedRoute>
+          <Payment />
+        </UserProtectedRoute>
+        {/* <UserProtectedRoute Comp={Payment} /> */}
+      </Elements>
+    },
+    {
+      path: "/success",
+      element:
+        <UserProtectedRoute>
+          <Success />
+        </UserProtectedRoute>
+    },
+    {
+      path: "/cancel",
+      element:
+        <UserProtectedRoute>
+          <Cancel />
+        </UserProtectedRoute>
 
-
-
+    },
 
     // admin pages
     {
       path: "/dashboard",
-      // element: <Dashboard />,
-      element: <AdminProtectedRoute Comp={Dashboard} />
+      element: <AdminProtectedRoute>
+        <Dashboard />
+      </AdminProtectedRoute>
     },
     {
       path: "/admin-profile",
-      // element: <Dashboard />,
-      element: <AdminProtectedRoute Comp={AdminProfile} />
+      element: <AdminProtectedRoute>
+        <AdminProfile />
+      </AdminProtectedRoute>
     },
     {
       path: "/add-product",
-      // element: <AddProduct />,
-      element: <AdminProtectedRoute Comp={AddProduct} />
-
-
+      element: <AdminProtectedRoute>
+        <AddProduct />
+      </AdminProtectedRoute>
     },
     {
       path: "/edit-product/:id",
-      // element: <EditProduct />,
-      element: <AdminProtectedRoute Comp={EditProduct} />
+      element: <AdminProtectedRoute>
+        <EditProduct />
+      </AdminProtectedRoute>
     },
     {
       path: "/admin-products",
@@ -183,27 +217,29 @@ function App() {
     },
     {
       path: "/admin-products-details/:id",
-      // element: <ProductDetails />,
-      element: <AdminProtectedRoute Comp={ProductDetails} />
+      element: <AdminProtectedRoute>
+        <ProductDetails />
+      </AdminProtectedRoute>
 
     },
     {
       path: "/users",
-      // element: <Users />,
-      element: <AdminProtectedRoute Comp={Users} />
+      element: <AdminProtectedRoute>
+        <Users />
+      </AdminProtectedRoute>
 
     },
     {
       path: "/admin-orders",
-      // element: <Orders />,
-      element: <AdminProtectedRoute Comp={Orders} />
-
+      element: <AdminProtectedRoute>
+        <Orders />
+      </AdminProtectedRoute>
     },
     {
       path: "/orders/details/:id",
-      // element: <Orderdetails />,
-      element: <AdminProtectedRoute Comp={Orderdetails} />
-
+      element: <AdminProtectedRoute>
+        <Orderdetails />
+      </AdminProtectedRoute>
     }
   ])
 

@@ -10,6 +10,7 @@ import { fetchSingleOrder, updateAdminOrderStatus } from "../../store/slices/ord
 import { useDispatch, useSelector } from "react-redux"
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material"
 import AdminNavbar from "../../components/AdminNavbar"
+import { currencySymbol } from "../../constant/currencySymbol"
 
 const Orderdetails = () => {
     const { id } = useParams()
@@ -146,7 +147,7 @@ const Orderdetails = () => {
                                                                     : `text-red-900 text-xl`
                                                             }
                                                         >
-                                                            ${order?.totalPrice}
+                                                            {currencySymbol}{order?.totalPrice}
                                                         </span>
                                                     </p>
                                                 </div>
@@ -176,7 +177,15 @@ const Orderdetails = () => {
 
                                                                             Size:
                                                                         </span>
-                                                                        <span className="text-gray-500">S</span>
+                                                                        <span className="text-gray-500">{orderItem?.size}</span>
+                                                                    </p>
+                                                                    <p
+                                                                        className="flex gap-4 items-center font-medium text-sm text-black pr-4 mr-4 border-r border-gray-200">
+                                                                        <span>
+
+                                                                            Color:
+                                                                        </span>
+                                                                        <span className="text-gray-500">{orderItem?.color}</span>
                                                                     </p>
                                                                     <p className="flex gap-4 items-center font-medium text-sm text-black ">
                                                                         <span>
@@ -194,13 +203,11 @@ const Orderdetails = () => {
                                                             <div className="col-span-5 lg:col-span-5 flex items-center justify-end max-lg:mt-3">
                                                                 <div className="flex gap-3 lg:block">
                                                                     <p className="font-bold text-sm  text-black">Price</p>
-                                                                    <p className="lg:mt-4 font-semibold text-xl ">${orderItem?.price}</p>
+                                                                    <p className="lg:mt-4 font-semibold text-xl ">{currencySymbol}{orderItem?.price}</p>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-
-
                                                 </div>
                                             </div>
                                         )}

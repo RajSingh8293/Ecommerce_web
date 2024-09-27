@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import { useEffect, useState } from "react"
@@ -16,7 +17,12 @@ import { addFavorateItem, removeFavorateItem } from "../../store/slices/favorate
 import { addToCart } from "../../store/slices/cartSlice"
 // import SingleProductCarousal from "../components/SingleProductCarousal"
 // import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
-
+import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
+import AliceCarousel from "react-alice-carousel"
+import 'react-alice-carousel/lib/alice-carousel.css';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
 
 const SingleProduct = () => {
     const [open, setOpen] = useState(false);
@@ -27,9 +33,11 @@ const SingleProduct = () => {
     const dispatch = useDispatch()
     const { singleProduct: product, products } = useSelector((state) => state.products)
     const [active, setActive] = useState(1)
+    const [color, setColor] = useState("")
+    const [quantity, setQuantity] = useState(1)
+    const [size, setSize] = useState("")
     const [relatedProducts, setRelatedProducts] = useState([])
     const [allReviews, setAllReviews] = useState([])
-    // const user = JSON.parse(localStorage.getItem("user"))
     const { favorateItems } = useSelector((state) => state.favorateItems)
     const AddToFavorateItem = (data) => {
         dispatch(addFavorateItem(data))
@@ -40,9 +48,30 @@ const SingleProduct = () => {
 
     const existItem = favorateItems?.find((data) => data?._id === product?._id)
 
+    const colorHandler = (e, color) => {
+        setColor(color)
+    }
+    const quntityIncreaseHandler = () => {
+        setQuantity(quantity + 1)
+    }
+    const quntityDecreaseHandler = () => {
+        setQuantity(quantity - 1)
+    }
 
-    console.log("existItem :", existItem);
 
+    const productData = {
+        _id: product?._id,
+        name: product?.name,
+        title: product?.title,
+        price: product?.price,
+        productImage: {
+            url: product?.productImage?.url,
+            publoc_id: product?.productImage?.publoc_id,
+        },
+        size: size,
+        color: color,
+        quantity: quantity,
+    }
 
     const AddToCart = (data) => {
         dispatch(addToCart(data))
@@ -51,13 +80,12 @@ const SingleProduct = () => {
     const getAllReviews = async () => {
         try {
             const { data } = await axios.get(`${backendApi}/api/v1/products/reviews/${id}`)
-            console.log("data :", data);
+            // console.log("data :", data);
             if (data.success) {
                 setAllReviews(data?.reviews)
             }
         } catch (error) {
             console.log(error);
-
 
         }
 
@@ -74,9 +102,13 @@ const SingleProduct = () => {
         dispatch(fetchProducts())
         const relatedFilter = products.filter((data) => data.name === product.name)
         setRelatedProducts(relatedFilter)
-
-
     }, [dispatch, id])
+
+    const items = [1, 2, 3, 4].map((i) =>
+        <div key={i} className="flex justify-center items-center">
+            <img className='h-[400px] rounded border-gray-200' src={product?.productImage?.url} alt='' />
+        </div>
+    )
     return (
 
         <Layout>
@@ -85,23 +117,20 @@ const SingleProduct = () => {
                     <div className="container px-5 py-24 mx-auto">
                         <div className="lg:w-[100%] mx-auto flex flex-wrap">
                             <div className="relative lg:w-[40%] w-[100%] border p-4  flex justify-center items-center">
-                                <img
+                                {/* <img
                                     alt="ecommerce"
                                     className="h-[400px]  rounded border-gray-200"
                                     src={product?.productImage?.url}
+                                /> */}
+                                <AliceCarousel
+                                    mouseTracking
+                                    disableButtonsControls
+                                    items={items}
+                                    autoPlayInterval="2000"
+                                    infinite
+                                    animationDuration="2000"
+                                    autoPlay={true}
                                 />
-                                {/* <SingleProductCarousal product={product?.productImage} /> */}
-                                <div className="absolute bottom-0 left-2 flex  gap-4">
-                                    <div className="border p-1 rounded overflow-hidden">
-                                        <img className="h-[70px]" src={product?.productImage?.url} alt="" />
-                                    </div>
-                                    <div className="border p-1 rounded">
-                                        <img className="h-[70px]" src={product?.productImage?.url} alt="" />
-                                    </div>
-                                    <div className="border p-1 rounded">
-                                        <img className="h-[70px]" src={product?.productImage?.url} alt="" />
-                                    </div>
-                                </div>
 
                                 {/* like button  */}
                                 <div className="absolute top-4 right-4">
@@ -146,7 +175,7 @@ const SingleProduct = () => {
                                 </div>
                                 <div>
                                     <span className="title-font font-medium text-2xl text-gray-900">
-                                        ${product.price}
+                                        ¥{product.price}
                                     </span>
                                 </div>
                                 <div className="py-2 flex items-center justify-between gap-20">
@@ -166,37 +195,71 @@ const SingleProduct = () => {
                                 <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-200 mb-5">
                                     <div className="flex items-center">
                                         <span className="mr-3">Color</span>
-                                        <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300 capitalize"> {product?.color}</span>
+                                        <div className="flex gap-3">
+                                            {["Red", "Blue", "Black", "Yellow"].map((data, i) =>
+                                                <button
+                                                    key={i}
+                                                    onClick={(e) => colorHandler(e, data)}
+
+                                                    value={data}
+                                                    className="border w-6 h-6  hover:bg-slate-400 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black" style={{
+                                                        backgroundColor: `${data}`
+                                                    }}>
+                                                </button>)}
+                                        </div>
+
+
+
+                                        {/* <button
+                                            className={`border w-6 h-6 rounded-full`} style={{
+                                                backgroundColor: `${product?.color}`
+                                            }}>
+                                        </button> */}
                                     </div>
                                     <div className="flex ml-6 items-center">
                                         <span className="mr-3">Size</span>
                                         <div className="relative">
-                                            <select className="rounded border appearance-none border-gray-400 py-2 focus:outline-none focus:border-red-500 text-base pl-3 pr-10">
-                                                <option>SM</option>
-                                                <option>M</option>
-                                                <option>L</option>
-                                                <option>XL</option>
+                                            <select
+                                                onChange={(e) => setSize(e.target.value)}
+                                                className="rounded border appearance-none border-gray-400 py-1 focus:outline-none focus:border-[tomato] text-base pl-3 pr-10">
+                                                {product?.sizes?.map((size, i) =>
+                                                    < option key={i} value={size}  > {size}</option>
+                                                )}
+
                                             </select>
                                             <span className="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
-                                                <svg
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    strokeLinejoin="round"
-                                                    strokeWidth="2"
-                                                    className="w-4 h-4"
-                                                    viewBox="0 0 24 24"
-                                                >
-                                                    <path d="M6 9l6 6 6-6"></path>
-                                                </svg>
+                                                <KeyboardArrowDownOutlinedIcon />
                                             </span>
+
                                         </div>
                                     </div>
+                                    <div className="flex ml-6 items-center">
+                                        <span className="mr-3">Quantity</span>
+                                        <div className="relative">
+                                            <div className=" flex gap-3 items-center">
+                                                < button
+                                                    className="w-8 h-8 btn_2 flex justify-center items-center text-white"
+                                                    disabled={quantity === 1}
+                                                    onClick={quntityDecreaseHandler}>
+                                                    < RemoveIcon />
+                                                </button>
+                                                {quantity}
+                                                <button
+                                                    className="w-8 h-8 btn_2 flex justify-center items-center text-white"
+                                                    disabled={quantity === product?.countInStock}
+                                                    onClick={quntityIncreaseHandler}>
+                                                    <  AddIcon />
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 </div>
 
                                 <div className="flex w-[100%]">
                                     <button
                                         className="btn w-full"
-                                        onClick={() => AddToCart(product)}
+                                        onClick={() => AddToCart(productData)}
                                     >
                                         Add To Cart
                                     </button>
@@ -279,13 +342,12 @@ const SingleProduct = () => {
                     <div className="bg-white">
                         <div className="mx-auto px-4 py-16 sm:px-6 sm:py-4 lg:max-w-7xl lg:px-4">
                             <h1 className="text-2xl font-semibold py-3">Related Products</h1>
-                            <div className="grid items-center  gap-4 grid-cols-1 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 ">
+                            <div className="grid items-center  gap-4 grid-cols-1 lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-2 ">
                                 {
                                     relatedProducts && relatedProducts?.map((item, index) =>
                                         <ProductCard key={index} item={item} />
                                     )
                                 }
-
                             </div>
                         </div>
                     </div>
