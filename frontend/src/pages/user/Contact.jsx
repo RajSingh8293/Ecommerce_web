@@ -1,38 +1,35 @@
+/* eslint-disable no-unused-vars */
 import { useState } from 'react';
 import Layout from '../../components/Layout';
+import { useForm } from "react-hook-form"
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const Contact = () => {
-    const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        message: '',
-    });
+    const {
+        register,
+        handleSubmit,
+        watch,
+        formState: { errors },
+    } = useForm()
 
-    const [submitted, setSubmitted] = useState(false);
-    const [error, setError] = useState('');
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prevData) => ({
-            ...prevData,
-            [name]: value,
-        }));
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Here, you can add form validation logic
-        if (!formData.name || !formData.email || !formData.message) {
-            setError('All fields are required.');
-            return;
+    const onSubmit = async (data) => {
+        const userInfo = {
+            access_key: "935e65c2-9a4a-4e45-886b-5d8c9b4e5e38",
+            name: data.name,
+            email: data.email,
+            message: data.message,
         }
-        // Simulate form submission
-        console.log('Form submitted:', formData);
-        setSubmitted(true);
-        setError('');
-        // Reset form
-        setFormData({ name: '', email: '', message: '' });
-    };
+
+        try {
+            const { data } = await axios.post('https://api.web3forms.com/submit', userInfo)
+            if (data) {
+                toast.success("Message sent successfull")
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
 
@@ -45,9 +42,7 @@ const Contact = () => {
 
                 <div className="contact-container mt-5">
                     <h2 className='heading'>Contact Us</h2>
-                    {submitted && <p>Thank you for your message!</p>}
-                    {error && <p style={{ color: 'red' }}>{error}</p>}
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit(onSubmit)}>
                         <div>
                             <label htmlFor="name">Name:</label>
                             <input
@@ -55,10 +50,11 @@ const Contact = () => {
                                 className='input'
                                 id="name"
                                 name="name"
-                                value={formData.name}
-                                onChange={handleChange}
-                                required
+                                // value={formData.name}
+                                // onChange={handleChange}
+                                {...register("name", { required: true })}
                             />
+                            {errors.name && <span className="text-xs text-red-600">Name field is required</span>}
                         </div>
                         <div>
                             <label htmlFor="email">Email:</label>
@@ -67,10 +63,11 @@ const Contact = () => {
                                 id="email"
                                 className='input'
                                 name="email"
-                                value={formData.email}
-                                onChange={handleChange}
-                                required
+                                // value={formData.email}
+                                // onChange={handleChange}
+                                {...register("email", { required: true })}
                             />
+                            {errors.email && <span className="text-xs text-red-600">Email field is required</span>}
                         </div>
                         <div>
                             <label htmlFor="message">Message:</label>
@@ -78,10 +75,11 @@ const Contact = () => {
                                 id="message"
                                 name="message"
                                 className='input'
-                                value={formData.message}
-                                onChange={handleChange}
-                                required
+                                // value={formData.message}
+                                // onChange={handleChange}
+                                {...register("message", { required: true })}
                             />
+                            {errors.message && <span className="text-xs text-red-600">Message field is required</span>}
                         </div>
                         <button type="submit" className='btn_2'>Submit</button>
                     </form>

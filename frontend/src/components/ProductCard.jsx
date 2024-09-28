@@ -27,9 +27,9 @@ const ProductCard = ({ item }) => {
 
         <>
             <div className="relative productCard mx-2 rounded overflow-hidden shadow-lg">
-                <div className="flex justify-center w-full h-[200px]  overflow-hidden p-2">
+                <div className="flex justify-center w-full h-[200px]  relative max-w-xs overflow-hidden bg-cover bg-no-repeat">
                     <Link to={`/product/${item?._id}`}>
-                        <img className="h-full w-full object-cover " src={item?.productImage?.url} alt="Shirt" />
+                        <img className="h-full w-full object-cover max-w-xs transition duration-300 ease-in-out hover:scale-110 " src={item?.productImage?.url} alt="Shirt" />
                     </Link>
                 </div>
                 <div className="p-4">
