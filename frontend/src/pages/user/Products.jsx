@@ -34,7 +34,6 @@ const Products = () => {
 
     const productCopy = [...products]
     const namedata = productCopy?.filter((data) => data?.name)
-    console.log("namedata :", namedata);
 
     const handleCategoryChange = (category) => {
         setCategory(category)

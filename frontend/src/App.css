@@ -100,8 +100,20 @@
   }
 
   .payCard{
-    border: 1px solid gray;
-    padding: 10px;
+    border: 1px solid #424242;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0px 10px;
+   
+  }
+
+  .payCard .cardInput {
+    width: 100%;
+    margin-top: 15px;
+    box-sizing: border-box;
+    outline: none;
+    border-radius: 4px;
   }
 
 

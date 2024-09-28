@@ -15,6 +15,9 @@ import { clearCartItems } from "../../store/slices/cartSlice"
 import { useState } from "react"
 import PayLoader from "../../components/PayLoader"
 import { currencySymbol } from "../../constant/currencySymbol"
+import EventSharpIcon from '@mui/icons-material/EventSharp';
+import VpnKeyIcon from '@mui/icons-material/VpnKey';
+import PaymentIcon from '@mui/icons-material/Payment';
 
 const Payment = () => {
     const navigate = useNavigate()
@@ -50,7 +53,7 @@ const Payment = () => {
                 paymentData,
                 {
                     withCredentials: true
-                }
+                },
             )
 
 
@@ -116,28 +119,31 @@ const Payment = () => {
 
                                 <form className="mt-8 max-w-lg">
                                     <div className="grid gap-4">
-
                                         <div className="payCard">
-
-                                            < CardNumberElement />
-                                        </div>
-
-
-                                        <div className="payCard">
-                                            <CardCvcElement />
+                                            <PaymentIcon />
+                                            < CardNumberElement className="cardInput" />
                                         </div>
                                         <div className="payCard">
-                                            <CardExpiryElement />
+                                            <EventSharpIcon />
+                                            <CardCvcElement className="cardInput" />
                                         </div>
-
+                                        <div className="payCard">
+                                            <VpnKeyIcon />
+                                            <CardExpiryElement className="cardInput" />
+                                        </div>
                                     </div>
 
                                     <button type="button"
                                         onClick={paymentSubmit}
-                                        className="w-full mt-8 py-3.5 btn_2 flex justify-center items-center"> {loading ? <PayLoader /> : `Pay- ${currencySymbol}${orderInfo?.totalPrice}`} </button>
+                                        className="w-full btn_2 flex justify-center items-center">
+                                        {loading ?
+
+                                            <PayLoader />
+                                            : `Pay Now`
+                                        }
+                                    </button>
                                 </form>
                             </div>
-
                             <div className=" bg-gray-100 p-6 rounded-md">
                                 <h2 className="text-3xl font-extrabold text-gray-800">{currencySymbol}{orderInfo?.totalPrice}</h2>
 
@@ -145,8 +151,8 @@ const Payment = () => {
                                     {cartItems && cartItems?.map((item) =>
                                         <li key={item?._id} className="flex flex-wrap gap-4 text-sm">
                                             <span>{item?.name}</span>X<span>{item?.quantity}</span>
-                                            <span className="ml-auto font-bold">{currencySymbol}{item?.price * item?.quantity}</span></li>)}
-                                    <li className="flex flex-wrap gap-4 text-sm">GST Tax (18%) <span className="ml-auto font-bold">{currencySymbol}{orderInfo?.tax}</span></li>
+                                            <span className="ml-auto ">{currencySymbol}{item?.price * item?.quantity}</span></li>)}
+                                    <li className="flex flex-wrap gap-4 text-sm">GST Tax (18%) <span className="ml-auto ">{currencySymbol}{orderInfo?.tax}</span></li>
                                     <li className="flex flex-wrap gap-4 text-sm font-bold border-t-2 pt-4">Total <span className="ml-auto">{currencySymbol}{orderInfo?.totalPrice}</span></li>
                                 </ul>
                             </div>
