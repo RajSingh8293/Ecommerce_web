@@ -108,6 +108,11 @@ const Navbar = () => {
                                     Contact
                                 </NavLink>
                             </li>
+                            <li >
+                                <NavLink to='/about' className="navLinks text-gray-600 font-semibold">
+                                    About Us
+                                </NavLink>
+                            </li>
                             {isAuthenticated && user?.role === "admin" && <li>
                                 <NavLink to='/dashboard' className="navLinks text-gray-600 font-semibold">
                                     Dasboard
@@ -164,7 +169,27 @@ const Navbar = () => {
                             }
 
                         </ul>
-                        <div className="lg:hidden md:hidden">
+
+
+                        <div className="lg:hidden md:hidden flex gap-5 items-center">
+                            <ul className="flex gap-4 items-center">
+                                <li>
+                                    <StyledBadge badgeContent={cartItems?.length} color="secondary">
+                                        <Link to='/cart'>
+                                            < LocalMallOutlinedIcon className="navLinks" />
+                                        </Link>
+                                    </StyledBadge>
+                                </li>
+
+                                <li>
+
+                                    <StyledBadge badgeContent={totalItems?.length} color="secondary">
+                                        <Link to='/favorate-products'>
+                                            <FavoriteBorderOutlinedIcon className="navLinks" />
+                                        </Link>
+                                    </StyledBadge>
+                                </li>
+                            </ul>
                             {show ? "" : <Button onClick={toggleDrawer(true)}> <CiMenuFries className="z-20  navLinks" color="black" fontSize={25} />
                             </Button>}
                             <Drawer open={show} onClose={toggleDrawer(false)}>

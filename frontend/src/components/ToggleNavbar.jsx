@@ -35,7 +35,7 @@ const ToggleNavbar = () => {
             link: '/products'
         },
         {
-            name: "About",
+            name: "About Us",
             link: '/about'
         },
         {
@@ -135,7 +135,6 @@ const ToggleNavbar = () => {
 
 
                             <Menu
-                                // anchorEl={anchorEl}
                                 id="account-menu"
                                 open={open}
                                 onClose={handleClose}
@@ -192,6 +191,7 @@ const ToggleNavbar = () => {
                         :
                         ""
                     }
+                    <button className='bg-gray-200 btn_2 text-[tomato] px-3 absolute top-5 right-2'>X</button>
                 </List>
             </Box >
         </div >

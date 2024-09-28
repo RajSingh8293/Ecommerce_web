@@ -41,6 +41,7 @@ import AdminProfile from './pages/admin/AdminProfile'
 import NoPage from './pages/user/NoPage'
 import Contact from './pages/user/Contact'
 import SearchPage from './pages/user/SearchPage'
+import About from './pages/user/About'
 // import env from "react-dotenv";
 
 const stripePromise = loadStripe(`${import.meta.env.VITE_API_STRIP_PUBLIC_KEY}`);
@@ -146,6 +147,10 @@ function App() {
     {
       path: "/contact",
       element: <Contact />,
+    },
+    {
+      path: "/about",
+      element: <About />,
     },
     {
       path: "/checkout",

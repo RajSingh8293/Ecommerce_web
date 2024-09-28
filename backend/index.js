@@ -13,6 +13,7 @@ const port = process.env.PORT || 4501;
 const app = express();
 
 const corsOptions = {
+  // origin: "https://ecommerce-web-frontend-snowy.vercel.app",
   origin: "http://localhost:5174",
   credentials: true,
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
