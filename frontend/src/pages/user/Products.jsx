@@ -321,6 +321,7 @@ const Products = () => {
                                             <div className="grid items-center  gap-4 grid-cols-1 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 ">
 
                                                 {
+
                                                     products.length > 0 && products?.map((item, index) =>
                                                         <ProductCard key={index} item={item} />
                                                     )
@@ -344,7 +345,6 @@ const Products = () => {
                 <div className="flex justify-center py-5">
                     <Pagination count={pages} onChange={setCurrentPageNo} />
                 </div>
-                <Divider />
 
 
             </section >

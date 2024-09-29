@@ -287,7 +287,6 @@ export const profileUser = () => {
         dispatch(profileRequest())
         try {
             const { data } = await axios.get(`${backendApi}/api/v1/user/me`, axiosConfig);
-
             if (data.success) {
                 dispatch(profileSuccess(data));
             }

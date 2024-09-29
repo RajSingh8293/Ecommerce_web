@@ -3,7 +3,6 @@ import Title from "../../components/Title"
 
 
 const About = () => {
-    // What our happy user says
     return (
         <Layout>
             <section className="py-24 px-5 lg:px-10">

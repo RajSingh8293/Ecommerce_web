@@ -191,7 +191,6 @@ const ToggleNavbar = () => {
                         :
                         ""
                     }
-                    <button className='bg-gray-200 btn_2 text-[tomato] px-3 absolute top-5 right-2'>X</button>
                 </List>
             </Box >
         </div >

@@ -80,7 +80,6 @@ const SingleProduct = () => {
     const getAllReviews = async () => {
         try {
             const { data } = await axios.get(`${backendApi}/api/v1/products/reviews/${id}`)
-            // console.log("data :", data);
             if (data.success) {
                 setAllReviews(data?.reviews)
             }
@@ -258,7 +257,7 @@ const SingleProduct = () => {
 
                                 <div className="flex w-[100%]">
                                     <button
-                                        className="btn w-full"
+                                        className="btn w-full "
                                         onClick={() => AddToCart(productData)}
                                     >
                                         Add To Cart

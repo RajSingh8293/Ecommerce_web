@@ -3,6 +3,7 @@ import Layout from "../../components/Layout"
 import axios from "axios"
 import { toast } from "react-toastify"
 import { useNavigate, useParams } from "react-router-dom"
+import { backendApi } from "../../constant/backendApi"
 
 const Reset_Password = () => {
     // const [loading, setLoading] = useState(false)
@@ -28,8 +29,7 @@ const Reset_Password = () => {
 
         try {
             const { data } = await axios.put(
-                // `${import.meta.env.VITE_REACT_APP_API_BASE_UR}/api/v1/user/register`,
-                `http://localhost:7676/api/v1/reset-password/${token}`,
+                `${backendApi}/api/v1/reset-password/${token}`,
                 userData,
                 axiosConfig
             )

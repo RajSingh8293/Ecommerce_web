@@ -18,7 +18,6 @@ const UpdateAvtar = ({ closeImageModal, open }) => {
         avtar: null
     })
 
-    console.log("user :", user);
 
     const onchangeFileHandler = (e) => {
         setUserData({ ...userData, avtar: e.target.files[0] })

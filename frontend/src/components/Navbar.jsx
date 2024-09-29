@@ -87,7 +87,7 @@ const Navbar = () => {
                 <div>
 
                     <>
-                        <ul className="hidden md:flex lg:flex justify-center items-center gap-7">
+                        <ul className="hidden   lg:flex justify-center items-center gap-7">
                             <li >
                                 <button onClick={handleOpen} className="navLinks text-gray-600">
                                     <SearchIcon />
@@ -171,27 +171,32 @@ const Navbar = () => {
                         </ul>
 
 
-                        <div className="lg:hidden md:hidden flex gap-5 items-center">
-                            <ul className="flex gap-4 items-center">
-                                <li>
-                                    <StyledBadge badgeContent={cartItems?.length} color="secondary">
-                                        <Link to='/cart'>
-                                            < LocalMallOutlinedIcon className="navLinks" />
-                                        </Link>
-                                    </StyledBadge>
-                                </li>
+                        <div className="lg:hidden flex gap-5 items-center">
+                            {show ? "" :
+                                <>
 
-                                <li>
+                                    <ul className="flex gap-4 items-center">
+                                        <li>
+                                            <StyledBadge badgeContent={cartItems?.length} color="secondary">
+                                                <Link to='/cart'>
+                                                    < LocalMallOutlinedIcon className="navLinks" />
+                                                </Link>
+                                            </StyledBadge>
+                                        </li>
 
-                                    <StyledBadge badgeContent={totalItems?.length} color="secondary">
-                                        <Link to='/favorate-products'>
-                                            <FavoriteBorderOutlinedIcon className="navLinks" />
-                                        </Link>
-                                    </StyledBadge>
-                                </li>
-                            </ul>
-                            {show ? "" : <Button onClick={toggleDrawer(true)}> <CiMenuFries className="z-20  navLinks" color="black" fontSize={25} />
-                            </Button>}
+                                        <li>
+
+                                            <StyledBadge badgeContent={totalItems?.length} color="secondary">
+                                                <Link to='/favorate-products'>
+                                                    <FavoriteBorderOutlinedIcon className="navLinks" />
+                                                </Link>
+                                            </StyledBadge>
+                                        </li>
+                                    </ul>
+                                    <Button onClick={toggleDrawer(true)}> <CiMenuFries className="z-20  navLinks" color="black" fontSize={25} />
+                                    </Button>
+                                </>
+                            }
                             <Drawer open={show} onClose={toggleDrawer(false)}>
                                 <ToggleNavbar className="navLink" />
                             </Drawer>
