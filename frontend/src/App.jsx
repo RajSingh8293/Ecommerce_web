@@ -49,9 +49,13 @@ const stripePromise = loadStripe(`${import.meta.env.VITE_API_STRIP_PUBLIC_KEY}`)
 
 function App() {
   const dispatch = useDispatch()
+  // const { token } = useSelector((state) => state.user)
+
 
   useEffect(() => {
+
     dispatch(profileUser())
+
   }, [dispatch])
 
 
@@ -81,7 +85,7 @@ function App() {
       element: <Reset_Password />,
     },
     {
-      path: "/emmail-success-msg",
+      path: "/email-success-msg",
       element: <SendEmailMsg />,
     },
     {

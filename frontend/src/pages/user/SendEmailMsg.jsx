@@ -12,7 +12,7 @@ const SendEmailMsg = () => {
 
                 </div>
                 <div className="rounded overflow-hidden" >
-                    <NavLink to='/' className="w-full">
+                    <NavLink to='/login' className="w-full">
                         <button className="w-full hover:bg-gray-800 bg-black p-1.5 px-4 text-white">Go Back</button>
                     </NavLink>
 

@@ -6,7 +6,7 @@ import { toast } from "react-toastify"
 
 const Login = () => {
     const dispatch = useDispatch()
-    const { user, isAuthenticated, error, message } = useSelector((state) => state.user)
+    const { user, isAuthenticated, error, message, loading } = useSelector((state) => state.user)
 
     const navigate = useNavigate()
     const [userData, setUserData] = useState({
@@ -29,7 +29,7 @@ const Login = () => {
 
     useEffect(() => {
         if (isAuthenticated) {
-            navigate("/")
+            navigate("/profile")
         }
         if (error) {
             toast.error(error)
@@ -97,7 +97,7 @@ const Login = () => {
                                 className="btn w-full"
                                 onClick={loginUserHandler}
                             >
-                                Login
+                                {loading ? "Loading..." : "Login"}
                             </button>
                         </div>
                         <p className="mt-10 text-center text-sm text-gray-500">

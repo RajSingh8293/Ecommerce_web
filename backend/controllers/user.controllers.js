@@ -9,6 +9,7 @@ import {
   comparePassword,
 } from "../middleware/authToken.js";
 import { sendEmail } from "../middleware/sendEmail.js";
+import { frontendApi } from "../frontendApi/frontendapi.js";
 
 // register user
 export const registerUser = async (req, res) => {
@@ -548,7 +549,7 @@ export const forgotPassword = async (req, res) => {
     const saveToken = await user.save({ validateBeforeSave: false });
 
     // create link for email
-    const resetPasswordUrl = `http://localhost:5174/reset-password/${user.resetPasswordToken}`;
+    const resetPasswordUrl = `${frontendApi}/reset-password/${user.resetPasswordToken}`;
 
     // create msg for for send email
     const message = `Please click on the following link Your password reset token is :- \n\n ${resetPasswordUrl} \n\nIf you have not requested this request then please ignore it`;

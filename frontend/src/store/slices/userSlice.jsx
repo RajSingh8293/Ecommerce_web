@@ -12,6 +12,12 @@ export const userSlice = createSlice({
         loading: false,
         isAuthenticated: false,
         user: null,
+        // token: localStorage.getItem('token')
+        //     ? JSON.parse(localStorage.getItem('token'))
+        //     : null,
+        // user: localStorage.getItem('user')
+        //     ? JSON.parse(localStorage.getItem('user'))
+        //     : null,
         error: null,
         message: null,
         allUsers: []
@@ -39,7 +45,6 @@ export const userSlice = createSlice({
             state.error = action.payload;
             state.message = null;
         },
-
 
         // login
         loginRequest: (state, action) => {
@@ -193,9 +198,6 @@ export const userSlice = createSlice({
             state.message = null;
         },
 
-
-
-
         clearAllErrors: (state, action) => {
             state.user = action.payload;
             state.error = null
@@ -286,7 +288,12 @@ export const profileUser = () => {
     return async (dispatch) => {
         dispatch(profileRequest())
         try {
-            const { data } = await axios.get(`${backendApi}/api/v1/user/me`, axiosConfig);
+            const { data } = await axios.get(`${backendApi}/api/v1/user/me`,
+                {
+                    withCredentials: true,
+                },
+            );
+
             if (data.success) {
                 dispatch(profileSuccess(data));
             }

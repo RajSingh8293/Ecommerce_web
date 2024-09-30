@@ -3,6 +3,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import connectDb from "./db/conn.js";
+import { frontendApi } from "./frontendApi/frontendapi.js";
 
 // import dotenv from "dotenv";
 // dotenv.config();
@@ -13,8 +14,7 @@ const port = process.env.PORT || 4501;
 const app = express();
 
 const corsOptions = {
-  // origin: "https://ecommerce-web-frontend-snowy.vercel.app",
-  origin: "http://localhost:5174",
+  origin: `${frontendApi}`,
   credentials: true,
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 };

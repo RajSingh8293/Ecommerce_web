@@ -3,6 +3,7 @@ import Layout from "../../components/Layout"
 import { toast } from "react-toastify"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import { backendApi } from "../../constant/backendApi"
 
 
 const Forgot_Password = () => {
@@ -24,17 +25,15 @@ const Forgot_Password = () => {
         e.preventDefault()
         console.log("userData :", userData);
 
-
         try {
             const { data } = await axios.post(
-                // `${import.meta.env.VITE_REACT_APP_API_BASE_UR}/api/v1/user/register`,
-                `http://localhost:7676/api/v1/forgot-password`,
+                `${backendApi}/api/v1/forgot-password`,
                 userData,
                 axiosConfig,
             )
             if (data.success) {
                 toast.success(data.message)
-                navigate('/emmail-success-msg')
+                navigate('/email-success-msg')
 
             }
 
