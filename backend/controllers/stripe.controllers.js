@@ -25,3 +25,11 @@ export const paymentProcessController = async (req, res) => {
     });
   }
 };
+
+export const stripePublicKey = async (req, res) => {
+  return res.status(200).json({
+    success: true,
+    stripeApiKey: process.env.STRIP_PUBLIC_KEY,
+  });
+};
+
