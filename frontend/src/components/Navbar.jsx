@@ -255,6 +255,29 @@ const Navbar = () => {
                             </NavLink>
                         </li>
                     )}
+                     {isAuthenticated && user?.role === "admin" && <li>
+                        <NavLink to='/dashboard' className="navLinks text-white font-semibold">
+                            Dasboard
+                        </NavLink>
+                    </li>}
+
+                    {
+                        user ? ""
+                            :
+
+                            <>
+                                <li >
+                                    <NavLink to='/login' className="text-white navLinks font-semibold">
+                                        Login
+                                    </NavLink>
+                                </li>
+                                <li >
+                                    <NavLink to='/register' className="text-white navLinks font-semibold">
+                                        Register
+                                    </NavLink>
+                                </li>
+                            </>
+                    }
                     {user &&
                         <ul className="relative">
                             <li>
