@@ -42,20 +42,14 @@ import NoPage from './pages/user/NoPage'
 import Contact from './pages/user/Contact'
 import SearchPage from './pages/user/SearchPage'
 import About from './pages/user/About'
-// import env from "react-dotenv";
 
 const stripePromise = loadStripe(`${import.meta.env.VITE_API_STRIP_PUBLIC_KEY}`);
 
 
 function App() {
   const dispatch = useDispatch()
-  // const { token } = useSelector((state) => state.user)
-
-
   useEffect(() => {
-
     dispatch(profileUser())
-
   }, [dispatch])
 
 
@@ -92,10 +86,7 @@ function App() {
       path: "/products",
       element: <Products />,
     },
-    // {
-    //   path: "/products/:keyword",
-    //   element: <Products />,
-    // },
+
     {
       path: "/seacrh/:keyword",
       element: <SearchPage />,

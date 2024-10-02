@@ -4,7 +4,10 @@ import { useDispatch, useSelector } from "react-redux"
 import { clearAllUserErrors, loginUser } from "../../store/slices/userSlice"
 import { toast } from "react-toastify"
 
+
 const Login = () => {
+
+
     const dispatch = useDispatch()
     const { user, isAuthenticated, error, message, loading } = useSelector((state) => state.user)
 
@@ -108,8 +111,8 @@ const Login = () => {
                         </p>
                     </form>
                 </div>
-            </div>
-        </section>
+            </div >
+        </section >
         // </Layout>
     )
 }

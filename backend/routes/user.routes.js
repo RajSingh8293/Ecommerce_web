@@ -2,9 +2,11 @@ import express, { Router } from "express";
 import {
   allUsers,
   changeCurrentPassword,
+  deleteAddress,
   deleteProfile,
   deleteUserAccount,
   forgotPassword,
+  getMyAddresss,
   getProfile,
   getUserAccountById,
   loginAdmin,
@@ -39,7 +41,10 @@ router.put(
   updateProfileImage
 );
 router.delete("/user/delete/me", isAuthenticated, deleteProfile);
+
 router.put("/user/save-address", isAuthenticated, saveAddress);
+router.delete("/user/delete-address/:id", isAuthenticated, deleteAddress);
+router.get("/adress/get", isAuthenticated, getMyAddresss);
 
 // admin
 router.get("/user/all", allUsers);

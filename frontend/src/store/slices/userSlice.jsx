@@ -12,12 +12,6 @@ export const userSlice = createSlice({
         loading: false,
         isAuthenticated: false,
         user: null,
-        // token: localStorage.getItem('token')
-        //     ? JSON.parse(localStorage.getItem('token'))
-        //     : null,
-        // user: localStorage.getItem('user')
-        //     ? JSON.parse(localStorage.getItem('user'))
-        //     : null,
         error: null,
         message: null,
         allUsers: []

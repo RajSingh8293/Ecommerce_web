@@ -130,7 +130,7 @@ const ConfirmOrder = () => {
                     </div>
                     <div className="lg:w-[40%] w-[100%] sm:w-[100%] md:w-[100%]  flex gap-3 flex-col py-8  mt-6 h-full rounded-lg border bg-white p-6 shadow-md md:mt-0 ">
                         <h1 className="lg:text-3xl text-3xl font-bold text-gray-800  py-3 ">
-                            Order Summery
+                            Order Summary
                         </h1>
                         <div className="mb-2 flex justify-between">
                             <p className="text-gray-700">Subtotal :</p>

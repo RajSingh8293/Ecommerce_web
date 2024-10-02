@@ -32,11 +32,13 @@ import userRouter from "./routes/user.routes.js";
 import productRouter from "./routes/product.routes.js";
 import orderRouter from "./routes/order.routes.js";
 import stripeRouter from "./routes/stripe.routes.js";
+import addressRouter from "./routes/address.routes.js";
 
 app.use("/api/v1", userRouter);
 app.use("/api/v1", productRouter);
 app.use("/api/v1", orderRouter);
 app.use("/api/v1", stripeRouter);
+app.use("/api/v1", addressRouter);
 
 connectDb()
   .then(() => {

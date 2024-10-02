@@ -1,6 +1,7 @@
 import { FaFacebookF, FaInstagram } from "react-icons/fa";
 import { FaTwitter } from "react-icons/fa";
 import { FaLinkedinIn } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
     return (
@@ -11,26 +12,26 @@ const Footer = () => {
                 <div className="text-gray-600 py-5 grid gap-4 grid-cols-2 lg:grid-cols-5 md:grid-cols-3 sm:grid-cols-2  place-items-stretch  ">
                     <div className="">
                         <ul >
-                            <li>Home</li>
-                            <li>About</li>
-                            <li>Contact</li>
-                            <li>Services</li>
+                            <li className="navLinks"><Link to='/'>Home</Link></li>
+                            <li className="navLinks"><Link to='/about'>About</Link></li>
+                            <li className="navLinks"><Link to='/contact'>Contact</Link></li>
+                            <li className="navLinks"><Link to='/favorate-products'>Whislist</Link></li>
                         </ul>
                     </div>
                     <div>
                         <ul>
-                            <li>Inquiry</li>
-                            <li>Get i touch</li>
-                            <li>Contact</li>
-                            <li>Services</li>
+                            <li className="navLinks"><Link to='/'>Services</Link></li>
+                            <li className="navLinks"><Link to='/about'>Inquiry</Link></li>
+                            <li className="navLinks"><Link to='/contact'>Get i touch</Link></li>
+                            <li className="navLinks"><Link to='/favorate-products'>Whislist</Link></li>
                         </ul>
                     </div>
-                    <div>
+                    < div>
                         <ul>
-                            <li>Inquiry</li>
-                            <li>Get i touch</li>
-                            <li>Contact</li>
-                            <li>Services</li>
+                            <li className="navLinks"><Link to='/'>Facebook</Link></li>
+                            <li className="navLinks"><Link to='/about'>Instagram</Link></li>
+                            <li className="navLinks"><Link to='/contact'>Get i touch</Link></li>
+                            <li className="navLinks"><Link to='/favorate-products'>Whislist</Link></li>
                         </ul>
                     </div>
                     <div>
@@ -67,7 +68,7 @@ const Footer = () => {
             <div className="py-3" >
                 <p className="text-gray-600 text-center">© 2024 LearnCode. All Rights Reserved.</p>
             </div>
-        </div>
+        </div >
     )
 }
 

@@ -62,7 +62,7 @@ const Dashboard = () => {
         // <Layout>
         <>
             <AdminNavbar />
-            <section className="lg:px-10 px-5  overflow-hidden  ">
+            <section className="lg:px-10 px-5  overflow-hidden ">
                 <Sidebar />
                 <div className='py-24 lg:pl-64  w-full'>
                     <div className="">

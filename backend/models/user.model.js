@@ -29,12 +29,13 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "user",
     },
-    address: {
-      type: String,
-    },
-    mobile: {
-      type: String,
-    },
+    shippingAddress: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Address",
+        required: true,
+      },
+    ],
     cart: {
       type: Array,
       default: [],

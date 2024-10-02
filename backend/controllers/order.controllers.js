@@ -151,7 +151,6 @@ export const deleteOrders = async (req, res) => {
 
 export const updateOrderStatus = async (req, res) => {
   try {
-    // const { orderStatus } = req.body;
     let order = await Order.findById(req.params.id);
     if (!order) {
       return res.status(402).json({

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import Layout from "../../components/Layout"
 import { useDispatch, useSelector } from "react-redux";
@@ -5,13 +6,15 @@ import CartProducts from "../../components/CartProducts";
 import { clearCartItems } from "../../store/slices/cartSlice";
 import { useEffect } from "react";
 import { currencySymbol } from "../../constant/currencySymbol";
-// import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-// import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import Address from "../../components/Address";
+import { fetchMyAddress } from "../../store/slices/addressSlice";
+
 
 const Cart = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const { cartItems } = useSelector((state) => state.cartItems)
+
     const totalPrice = cartItems.reduce(
         (acc, cur) => acc + cur.quantity * cur.price,
         0,
@@ -28,6 +31,8 @@ const Cart = () => {
             behavior: "smooth",
         });
     }, [])
+
+
     return (
         <Layout>
             <section className=" lg:py-24 py-26 lg:px-10 px-5">
@@ -70,7 +75,8 @@ const Cart = () => {
                                     </div>
                                 </div>
 
-                                <div className=" w-full lg:w-1/2  px-8 py-10">
+                                <div className=" w-full lg:w-1/2  px-8 py-10 flex flex-col gap-5">
+                                    {/* <h1 className="font-bold text-gray-600 text-2xl border-b pb-8">Select Shiping address</h1> */}
                                     <h1 className="font-bold text-gray-600 text-2xl border-b pb-8">Order Summary</h1>
                                     <div className="flex justify-between mt-10 mb-5">
                                         <span className="font-semibold text-sm uppercase">Total Items ({cartItems?.length})</span>
@@ -86,6 +92,7 @@ const Cart = () => {
                                             {currencySymbol}{shipping}
                                         </p>
                                     </div>
+
                                     <div className="border-t mt-8">
                                         <div className="flex font-semibold justify-between py-6 text-sm uppercase">
                                             <span className="font-bold text-normal">Total </span>
@@ -100,6 +107,7 @@ const Cart = () => {
                                             </span>
                                         </button>
                                     </div>
+
                                 </div>
                             </div>
                         </div>

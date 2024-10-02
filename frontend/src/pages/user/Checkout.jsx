@@ -1,13 +1,18 @@
-import { useState } from "react"
+/* eslint-disable no-unused-vars */
+import { useEffect, useState } from "react"
 import CheckoutSteps from "../../components/CheckoutSteps"
 import { useDispatch, useSelector } from "react-redux"
 import Layout from "../../components/Layout"
+import { Link, useNavigate, useParams } from "react-router-dom"
+import { countries } from "../../Countries"
+import { createNewAddress, fetchMyAddress, getSingleAddress } from "../../store/slices/addressSlice"
+import Address from "../../components/Address"
 import { shippingReducer } from "../../store/slices/cartSlice"
-import { Link, useNavigate } from "react-router-dom"
 
 const Checkout = () => {
-    const navigate = useNavigate()
     const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const { id } = useParams()
     const { shippingInfo } = useSelector((state) => state.cartItems)
 
     const [firstname, setFirstname] = useState(shippingInfo?.firstname)
@@ -20,6 +25,16 @@ const Checkout = () => {
     const [zipcode, setZipcode] = useState(shippingInfo?.zipcode)
 
 
+    const addressData = {
+        firstname,
+        lastname,
+        phone,
+        country,
+        state,
+        city,
+        address,
+        zipcode,
+    }
 
 
     const shippingHandler = (e) => {
@@ -28,17 +43,7 @@ const Checkout = () => {
             alert('Phone number must be 10 digit long')
         }
 
-        dispatch(shippingReducer({
-            firstname,
-            lastname,
-            phone,
-            country,
-            state,
-            city,
-            address,
-            zipcode,
-        }),
-        )
+        dispatch(shippingReducer(addressData))
         navigate('/confirm-order')
     }
 
@@ -50,13 +55,14 @@ const Checkout = () => {
                 <div className="py-8">
                     <CheckoutSteps activeStep={0} />
                 </div>
-                <section className="w-[100%] flex lg:justify-between flex-wrap ">
-                    <div className="lg:w-[50%] w-[80%] mx-auto">
+                <section className="lg:max-w-[1000px] mx-auto w-[100%] grid lg:gap-10 gap-5 ">
+
+                    <div className="">
                         <h1 className="text-gray-600 font-semibold text-2xl pb-5">
                             Shipping Address
                         </h1>
                         {/* first name & last name  */}
-                        <div className="mb-5 lg:flex w-[100%] lg:justify-between  md:flex md:justify-between gap-5">
+                        <div className="mb-2 lg:flex w-[100%] lg:justify-between  md:flex md:justify-between gap-5">
                             <div className="lg:w-[50%]  md:w-[50%] lg:mb-0 mb-4">
                                 <label className="block mb-2 text-sm font-medium text-green-700 dark:text-green-500">
                                     First Name
@@ -85,94 +91,103 @@ const Checkout = () => {
                             </div>
                         </div>
 
-                        {/* phone   */}
-                        <div className="mb-5">
-                            <label className="block mb-2 text-sm font-medium text-green-700 dark:text-green-500">
-                                Phone
-                            </label>
-                            <input
-                                type="phone"
-                                className="bg-green-50 border border-green-500 text-green-900 dark:text-green-400 placeholder-green-700 dark:placeholder-green-500 text-sm focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-green-500"
-                                placeholder="+91 8978676745"
-                                name="phone"
-                                value={phone}
-                                onChange={(e) => setPhone(e.target.value)}
-                            />
-                        </div>
                         {/* country & state */}
+                        <div className="grid lg:grid-cols-2 lg:gap-5 grid-cols-1">
 
-                        <div className="mb-5">
-                            <label className="block mb-2 text-sm font-medium text-green-700 dark:text-green-500">
-                                Country
-                            </label>
-                            <input
-                                type="text"
-                                className="bg-green-50 border border-green-500 text-green-900 dark:text-green-400 placeholder-green-700 dark:placeholder-green-500 text-sm focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-green-500"
-                                placeholder="Japan"
-                                name="country"
-                                value={country}
-                                onChange={(e) => setCountry(e.target.value)}
-                            />
+                            <div className="mb-2">
+                                <label className="block mb-2 text-sm font-medium text-green-700 dark:text-green-500">
+                                    Country
+                                </label>
+                                <select name="country"
+                                    value={country}
+                                    onChange={(e) => setCountry(e.target.value)}
+                                    className="bg-green-50 border border-green-500 text-green-900 dark:text-green-400 placeholder-green-700 dark:placeholder-green-500 text-sm focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-green-500"
+                                >
+                                    {countries?.map((country) =>
+                                        < option key={country?.code} value={country?.code}>{country?.name}</option>
+                                    )}
+                                </select>
+                            </div>
+                            <div className="mb-2">
+                                <label className="block mb-2 text-sm font-medium text-green-700 dark:text-green-500">
+                                    State
+                                </label>
+                                <input
+                                    type="text"
+                                    className="bg-green-50 border border-green-500 text-green-900 dark:text-green-400 placeholder-green-700 dark:placeholder-green-500 text-sm focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-green-500"
+                                    placeholder="Tokyo"
+                                    name="state"
+                                    value={state}
+                                    onChange={(e) => setState(e.target.value)}
+                                />
+                            </div>
                         </div>
 
-                        <div className="mb-5">
-                            <label className="block mb-2 text-sm font-medium text-green-700 dark:text-green-500">
-                                State
-                            </label>
-                            <input
-                                type="text"
-                                className="bg-green-50 border border-green-500 text-green-900 dark:text-green-400 placeholder-green-700 dark:placeholder-green-500 text-sm focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-green-500"
-                                placeholder="Tokyo"
-                                name="state"
-                                value={state}
-                                onChange={(e) => setState(e.target.value)}
-                            />
-                        </div>
 
                         {/* city & street  */}
-                        <div className="mb-5">
-                            <label className="block mb-2 text-sm font-medium text-green-700 dark:text-green-500">
-                                City
-                            </label>
-                            <input
-                                type="text"
-                                className="bg-green-50 border border-green-500 text-green-900 dark:text-green-400 placeholder-green-700 dark:placeholder-green-500 text-sm focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-green-500"
-                                placeholder="Setagaya"
-                                name="city"
-                                value={city}
-                                onChange={(e) => setCity(e.target.value)}
-                            />
-                        </div>
-                        {/* Address */}
-                        <div className="mb-5">
-                            <label className="block mb-2 text-sm font-medium text-green-700 dark:text-green-500">
-                                Address
-                            </label>
-                            <input
-                                type="text"
-                                className="bg-green-50 border border-green-500 text-green-900 dark:text-green-400 placeholder-green-700 dark:placeholder-green-500 text-sm focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-green-500"
-                                placeholder="103, lajpat nagar, 3rd floor "
-                                name="house"
-                                value={address}
-                                onChange={(e) => setAddress(e.target.value)}
-                            />
-                        </div>
-                        {/* pincode  */}
-                        <div className="mb-5">
-                            <label className="block mb-2 text-sm font-medium text-green-700 dark:text-green-500">
-                                Zipcode / Pincode
-                            </label>
-                            <input
-                                type="text"
-                                className="bg-green-50 border border-green-500 text-green-900 dark:text-green-400 placeholder-green-700 dark:placeholder-green-500 text-sm focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-green-500"
-                                placeholder="1202002"
-                                name="pincode"
-                                value={zipcode}
-                                onChange={(e) => setZipcode(e.target.value)}
-                            />
+                        <div className="grid lg:grid-cols-2 lg:gap-5 grid-cols-1">
+                            <div className="mb-2">
+                                <label className="block mb-2 text-sm font-medium text-green-700 dark:text-green-500">
+                                    City
+                                </label>
+                                <input
+                                    type="text"
+                                    className="bg-green-50 border border-green-500 text-green-900 dark:text-green-400 placeholder-green-700 dark:placeholder-green-500 text-sm focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-green-500"
+                                    placeholder="Setagaya"
+                                    name="city"
+                                    value={city}
+                                    onChange={(e) => setCity(e.target.value)}
+                                />
+                            </div>
+                            {/* Address */}
+                            <div className="mb-2">
+                                <label className="block mb-2 text-sm font-medium text-green-700 dark:text-green-500">
+                                    Address
+                                </label>
+                                <input
+                                    type="text"
+                                    className="bg-green-50 border border-green-500 text-green-900 dark:text-green-400 placeholder-green-700 dark:placeholder-green-500 text-sm focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-green-500"
+                                    placeholder="103, lajpat nagar, 3rd floor "
+                                    name="house"
+                                    value={address}
+                                    onChange={(e) => setAddress(e.target.value)}
+                                />
+                            </div>
                         </div>
 
-                        <div className="btn flex justify-center items-center">
+
+                        <div className="grid lg:grid-cols-2 lg:gap-5 grid-cols-1">
+                            {/* phone   */}
+                            <div className="mb-2">
+                                <label className="block mb-2 text-sm font-medium text-green-700 dark:text-green-500">
+                                    Phone
+                                </label>
+                                <input
+                                    type="phone"
+                                    className="bg-green-50 border border-green-500 text-green-900 dark:text-green-400 placeholder-green-700 dark:placeholder-green-500 text-sm focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-green-500"
+                                    placeholder="+91 8978676745"
+                                    name="phone"
+                                    value={phone}
+                                    onChange={(e) => setPhone(e.target.value)}
+                                />
+                            </div>
+                            {/* pincode  */}
+                            <div className="mb-2">
+                                <label className="block mb-2 text-sm font-medium text-green-700 dark:text-green-500">
+                                    Zipcode / Pincode
+                                </label>
+                                <input
+                                    type="text"
+                                    className="bg-green-50 border border-green-500 text-green-900 dark:text-green-400 placeholder-green-700 dark:placeholder-green-500 text-sm focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-green-500"
+                                    placeholder="1202002"
+                                    name="pincode"
+                                    value={zipcode}
+                                    onChange={(e) => setZipcode(e.target.value)}
+                                />
+                            </div>
+                        </div>
+
+                        <div className="btn flex justify-center items-center mt-5">
                             <button
                                 className=" text-white"
                                 type="button"
@@ -182,7 +197,10 @@ const Checkout = () => {
                             </button>
                         </div>
                     </div>
+
+
                 </section>
+
                 <div className="absolute mt-5 top-16 lg:left-10 left-5">
                     <button className="bg-black rounded p-1 px-2 text-white ">
                         <Link className="text-sm font-semibold flex justify-between items-center" to='/cart'>
@@ -200,7 +218,7 @@ const Checkout = () => {
                     </button>
                 </div>
             </section>
-        </Layout>
+        </Layout >
     )
 }
 

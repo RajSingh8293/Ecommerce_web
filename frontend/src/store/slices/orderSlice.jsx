@@ -163,7 +163,6 @@ export const fetchSingleOrder = (id) => async (dispatch) => {
     dispatch(requestSingleOrder());
     try {
         const { data } = await axios.get(`${backendApi}/api/v1/order/${id}`, axiosConfig)
-        console.log("order :", data);
         if (data?.success) {
             dispatch(successSingleOrder(data))
         }

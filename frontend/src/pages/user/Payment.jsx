@@ -19,6 +19,7 @@ import EventSharpIcon from '@mui/icons-material/EventSharp';
 import VpnKeyIcon from '@mui/icons-material/VpnKey';
 import PaymentIcon from '@mui/icons-material/Payment';
 
+
 const Payment = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -27,6 +28,7 @@ const Payment = () => {
     const [loading, setLoading] = useState(false)
     const { shippingInfo, cartItems } = useSelector((state) => state.cartItems)
     const { user } = useSelector((state) => state.user)
+
 
     const orderInfo = JSON.parse(localStorage.getItem("orderInfo"))
 

@@ -10,63 +10,48 @@ import {
 } from "../middleware/authToken.js";
 import { sendEmail } from "../middleware/sendEmail.js";
 import { frontendApi } from "../frontendApi/frontendapi.js";
+import { sendResponse } from "../utils/sendResponse.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import Address from "../models/address.model.js";
 
 // register user
-export const registerUser = async (req, res) => {
+export const registerUser = asyncHandler(async (req, res) => {
   const { username, email, password } = req.body;
-  try {
-    if (!username) {
-      return res.status(422).json({ message: "Username is required !" });
-    }
-    if (!email) {
-      return res.status(422).json({ message: "Email is required !" });
-    }
-    if (!password) {
-      return res.status(422).json({ message: "Password is required !" });
-    }
 
-    // existing user
-    const existsUser = await User.findOne({ email });
-    if (existsUser) {
-      return res
-        .status(400)
-        .json({ success: false, message: "User already exists !" });
-    }
-
-    // password hash
-    const hashPassword = authHashPassword(password);
-
-    const userdata = new User({
-      username,
-      email,
-      password: hashPassword,
-    });
-
-    const user = await userdata.save();
-
-    const token = authToken(user._id);
-    const { password: pass, ...rest } = user._doc; //  hide passwrod
-    const options = {
-      httpOnly: true,
-      secure: true,
-    };
-    res.status(201).cookie("token", token, options).json({
-      user: rest,
-      token: token,
-      success: true,
-      message: "Register In Successfully",
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Error with registration",
-      error,
-    });
+  if (!username) {
+    return res.status(422).json({ message: "Username is required !" });
   }
-};
+  if (!email) {
+    return res.status(422).json({ message: "Email is required !" });
+  }
+  if (!password) {
+    return res.status(422).json({ message: "Password is required !" });
+  }
+
+  // existing user
+  const existsUser = await User.findOne({ email });
+  if (existsUser) {
+    return res
+      .status(400)
+      .json({ success: false, message: "User already exists !" });
+  }
+
+  // password hash
+  const hashPassword = authHashPassword(password);
+
+  const userdata = new User({
+    username,
+    email,
+    password: hashPassword,
+  });
+
+  const user = await userdata.save();
+
+  sendResponse(res, user, 201, "Register Successfully");
+});
 
 // login user
-export const loginUser = async (req, res) => {
+export const loginUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   if (!password) {
     return res
@@ -79,49 +64,26 @@ export const loginUser = async (req, res) => {
       .json({ success: false, message: "Email is required !" });
   }
 
-  try {
-    const user = await User.findOne({ email });
-    if (!user) {
-      res.status(400).send({
-        success: false,
-        message: "User does not exists",
-      });
-    }
-
-    const isMatch = comparePassword(password, user.password);
-    if (!isMatch) {
-      res.status(400).send({
-        success: false,
-        message: "Invalid credentials !",
-      });
-    }
-
-    const token = authToken(user._id);
-
-    const options = {
-      httpOnly: true,
-      secure: true,
-    };
-    const { password: pass, ...rest } = user._doc; // hide password
-    res
-      .status(200)
-      .cookie("token", token, { maxAge: 1 * 24 * 60 * 60 * 1000 }, options)
-      .json({
-        success: true,
-        message: "Logged in successfully",
-        user: rest,
-        token,
-      });
-  } catch (error) {
-    return res.status(400).json({
+  const user = await User.findOne({ email });
+  if (!user) {
+    res.status(400).send({
       success: false,
-      message: "Error with login",
-      error,
+      message: "User does not exists",
     });
   }
-};
+
+  const isMatch = comparePassword(password, user.password);
+  if (!isMatch) {
+    res.status(400).send({
+      success: false,
+      message: "Invalid credentials !",
+    });
+  }
+
+  sendResponse(res, user, 200, "Logged in Successfully");
+});
 // login Admin
-export const loginAdmin = async (req, res) => {
+export const loginAdmin = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   if (!password) {
     return res
@@ -134,78 +96,60 @@ export const loginAdmin = async (req, res) => {
       .json({ success: false, message: "Email is required !" });
   }
 
-  try {
-    const findAdmin = await User.findOne({ email });
-    if (!findAdmin) {
-      res.status(400).send({
-        success: false,
-        message: "User does not exists",
-      });
-    }
-    if (findAdmin?.role !== "admin") {
-      res.status(400).send({
-        success: false,
-        message: "Not authorized",
-      });
-    }
-
-    const isMatch = comparePassword(password, findAdmin.password);
-    if (!isMatch) {
-      res.status(400).send({
-        success: false,
-        message: "Invalid credentials !",
-      });
-    }
-
-    const token = authToken(findAdmin._id);
-
-    const options = {
-      httpOnly: true,
-      secure: true,
-    };
-    const { password: pass, ...rest } = findAdmin._doc; // hide password
-    res
-      .status(200)
-      .cookie("token", token, { maxAge: 1 * 24 * 60 * 60 * 1000 }, options)
-      .json({
-        success: true,
-        message: "Logged in successfully",
-        user: rest,
-        token,
-      });
-  } catch (error) {
-    return res.status(400).json({
+  const findAdmin = await User.findOne({ email });
+  if (!findAdmin) {
+    res.status(400).send({
       success: false,
-      message: "Error with login",
-      error,
+      message: "User does not exists",
     });
   }
-};
+  if (findAdmin?.role !== "admin") {
+    res.status(400).send({
+      success: false,
+      message: "Not authorized",
+    });
+  }
+
+  const isMatch = comparePassword(password, findAdmin.password);
+  if (!isMatch) {
+    res.status(400).send({
+      success: false,
+      message: "Invalid credentials !",
+    });
+  }
+
+  sendResponse(res, findAdmin, 200, "Logged in Successfully");
+});
 
 // logout user
-export const logoutUser = async (req, res) => {
+export const logoutUser = asyncHandler(async (req, res) => {
   try {
-    const options = {
-      httpOnly: true,
-      secure: true,
-    };
-
-    return res.status(200).clearCookie("token", options).json({
-      success: true,
-      message: "User logged Out",
-    });
+    return res
+      .status(200)
+      .clearCookie("token", {
+        maxAge: 0,
+        httpOnly: true,
+        secure: true,
+        sameSite: "None",
+      })
+      .json({
+        success: true,
+        message: "User logged Out",
+      });
   } catch (error) {
     return res.status(500).json({
       success: false,
       message: "Something wrong with logged Out",
     });
   }
-};
+});
 
 // profile
 export const getProfile = async (req, res) => {
   try {
-    const user = await User.findById(req.user?._id).select("-password");
+    const user = await User.findById(req.user?._id).populate({
+      path: "shippingAddress",
+    });
     // console.log("user :", user);
 
     if (!user) {
@@ -229,53 +173,123 @@ export const getProfile = async (req, res) => {
   }
 };
 
-// update profile
-export const updateProfile = async (req, res) => {
-  const { username, email } = req.body;
+// save address
+export const saveAddress = async (req, res) => {
+  const { firstname, lastname, phone, country, state, city, address, zipcode } =
+    req.body;
+
+  let user = await User.findById(req.user?._id);
+  if (!user) {
+    return res.status(400).json({
+      message: "User not found!",
+    });
+  }
+
   try {
-    const user = await User.findById(req.user?._id).select("-password");
-    if (!user) {
-      return res.status(400).json({
-        success: false,
-        message: "User not found",
-      });
-    }
+    const userAddress = {
+      userId: req.user._id,
+      firstname,
+      lastname,
+      phone: Number(phone),
+      country,
+      state,
+      city,
+      address,
+      zipcode,
+    };
 
-    const userUpdate = await User.findByIdAndUpdate(
-      req.user?._id,
-      {
-        $set: {
-          username,
-          email,
-        },
-      },
-      { new: true }
-    );
-
-    // const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
-    //   expiresIn: "7d",
-    // });
-    // return res.status(200).json({
-    //   success: true,
-    //   message: "User updated successfully",
-    //   user,
-    //   token,
-    // });
+    const createAddress = await Address.create(userAddress);
+    user.shippingAddress.push(createAddress._id);
+    const saveUser = await user.save();
 
     res.status(200).json({
       success: true,
-      message: "User updated successfully",
-      user: userUpdate,
-      //   token,
+      message: "Address update successfully",
+      user: saveUser,
     });
   } catch (error) {
-    return res.status(400).json({
+    return res.status(500).json({
       success: false,
-      message: "Error with get profile",
+      message: "Something wrong with save address",
       error,
     });
   }
 };
+
+export const getMyAddresss = async (req, res) => {
+  let address = await Address.findById(req.user?._id);
+  if (!address) {
+    return res.status(400).json({
+      message: "address not found!",
+    });
+  }
+
+  try {
+    res.status(200).json({
+      success: true,
+      message: "Address update successfully",
+      address,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Something wrong with save address",
+      error,
+    });
+  }
+};
+
+export const deleteAddress = async (req, res) => {
+  // let user = await User.findById(req.user?._id);
+  // if (!user) {
+  //   return res.status(400).json({
+  //     message: "User not found!",
+  //   });
+  // }
+
+  let address = await Address.findById(req.params.id);
+  try {
+    const deleteAdd = await Address.findByIdAndDelete(address);
+
+    res.status(200).json({
+      success: true,
+      message: "Delete update successfully",
+      user: deleteAdd,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Something wrong with save address",
+      error,
+    });
+  }
+};
+
+// update profile
+export const updateProfile = asyncHandler(async (req, res) => {
+  const { username, email } = req.body;
+
+  const user = await User.findById(req.user?._id).select("-password");
+  if (!user) {
+    return res.status(400).json({
+      success: false,
+      message: "User not found",
+    });
+  }
+
+  const userUpdate = await User.findByIdAndUpdate(
+    req.user?._id,
+    {
+      $set: {
+        username,
+        email,
+      },
+    },
+    { new: true }
+  );
+
+  sendResponse(res, userUpdate, 200, "User updated  Successfully");
+});
 
 // delete account himself user
 export const deleteProfile = async (req, res) => {
@@ -291,10 +305,18 @@ export const deleteProfile = async (req, res) => {
     await deleteOnCloudinary(user?.profileImage?.public_id);
     await User.findByIdAndDelete(user);
 
-    return res.status(200).json({
-      success: true,
-      message: "User deleted successfully",
-    });
+    return res
+      .status(200)
+      .clearCookie("token", {
+        maxAge: 0,
+        httpOnly: true,
+        secure: true,
+        sameSite: "None",
+      })
+      .json({
+        success: true,
+        message: "Account deleted successfully",
+      });
   } catch (error) {
     return res.status(400).json({
       success: false,
@@ -304,33 +326,6 @@ export const deleteProfile = async (req, res) => {
   }
 };
 
-// save address
-export const saveAddress = async (req, res) => {
-  const user = req.user;
-
-  try {
-    const updatedUser = await User.findByIdAndUpdate(
-      user._id,
-      {
-        address: req?.body?.address,
-      },
-      {
-        new: true,
-      }
-    );
-    res.status(200).json({
-      success: true,
-      message: "Address update successfully",
-      updatedUser,
-    });
-  } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: "Something wrong with save address",
-      error,
-    });
-  }
-};
 export const updateUserRole = async (req, res) => {
   const { role } = req.body;
   const findUser = await User.findById(req.params.id);
@@ -388,11 +383,7 @@ export const updateProfileImage = async (req, res) => {
       { new: true }
     );
 
-    return res.status(200).json({
-      success: true,
-      message: "Profile image updated successfully",
-      user: userUpdate,
-    });
+    sendResponse(res, userUpdate, 200, "Profile image updated successfully");
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -407,9 +398,7 @@ export const changeCurrentPassword = async (req, res) => {
   const { oldPassword, newPassword } = req.body;
 
   const user = await User.findById(req.user?._id);
-  // const isPasswordCorrect = await user.isPasswordCorrect(oldPassword);
   const isPasswordCorrect = bcryptjs.compareSync(oldPassword, user.password);
-  console.log("user :", user);
 
   if (!isPasswordCorrect) {
     res.status(400).json({
@@ -419,12 +408,9 @@ export const changeCurrentPassword = async (req, res) => {
   }
 
   user.password = newPassword;
-  await user.save({ validateBeforeSave: false });
+  const updatePassword = await user.save({ validateBeforeSave: false });
 
-  res.status(200).json({
-    success: true,
-    message: "Password changed successfully",
-  });
+  sendResponse(res, updatePassword, 200, "Password changed  successfully");
 };
 
 // delete user account by admin
