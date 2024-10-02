@@ -4,7 +4,7 @@ import './App.css'
 
 import { useDispatch } from 'react-redux'
 import { profileUser } from './store/slices/userSlice'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Home from './pages/user/Home'
 import Login from './pages/user/Login'
 import Register from './pages/user/Register'
@@ -42,12 +42,36 @@ import NoPage from './pages/user/NoPage'
 import Contact from './pages/user/Contact'
 import SearchPage from './pages/user/SearchPage'
 import About from './pages/user/About'
-
-const stripePromise = loadStripe(`${import.meta.env.VITE_API_STRIP_PUBLIC_KEY}`);
+import axios from 'axios'
+import { backendApi } from './constant/backendApi'
 
 
 function App() {
   const dispatch = useDispatch()
+    const [stripeKey, setStripeKey] = useState("")
+  const stripePromise = loadStripe(stripeKey);
+
+    let axiosConfig = {
+    withCredentials: true,
+  }
+  const getStripePublicKey = async () => {
+    try {
+      const { data } = await axios.get(`${backendApi}/api/v1/stripepublickey`, axiosConfig);
+      console.log("data :", data);
+
+      if (data.success) {
+        setStripeKey(data?.stripeApiKey)
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+  getStripePublicKey()
+
+
+  
   useEffect(() => {
     dispatch(profileUser())
   }, [dispatch])
