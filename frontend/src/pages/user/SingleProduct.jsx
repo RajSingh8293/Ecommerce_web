@@ -191,8 +191,8 @@ const SingleProduct = () => {
 
                                 </div>
                                 <p className="leading-relaxed">{product.description}</p>
-                                <div className="lg:flex md:flex sm:flex gap-3 flex flex-col pb-5 border-b-2 border-gray-200 mb-5">
-                                    <div className="flex items-center">
+                                <div className="lg:flex md:flex sm:flex gap-3 flex pb-5 border-b-2 border-gray-200 mb-5">
+                                    <div className="flex gap-5 items-center">
                                         <span className="mr-3">Color</span>
                                         <div className="flex gap-3">
                                             {["Red", "Blue", "Black", "Yellow"].map((data, i) =>
@@ -215,7 +215,7 @@ const SingleProduct = () => {
                                             }}>
                                         </button> */}
                                     </div>
-                                    <div className="flex ml-6 items-center">
+                                    <div className="flex gap-5 items-center">
                                         <span className="mr-3">Size</span>
                                         <div className="relative">
                                             <select
@@ -232,7 +232,7 @@ const SingleProduct = () => {
 
                                         </div>
                                     </div>
-                                    <div className="flex ml-6 items-center">
+                                    <div className="flex gap-5 items-center">
                                         <span className="mr-3">Quantity</span>
                                         <div className="relative">
                                             <div className=" flex gap-3 items-center">
