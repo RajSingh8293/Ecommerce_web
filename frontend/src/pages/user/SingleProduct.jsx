@@ -192,7 +192,7 @@ const SingleProduct = () => {
                                 </div>
                                 <p className="leading-relaxed">{product.description}</p>
                                 <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-200 mb-5">
-                                    <div className="flex items-center">
+                                    <div className="lg:flex items-center">
                                         <span className="mr-3">Color</span>
                                         <div className="flex gap-3">
                                             {["Red", "Blue", "Black", "Yellow"].map((data, i) =>
