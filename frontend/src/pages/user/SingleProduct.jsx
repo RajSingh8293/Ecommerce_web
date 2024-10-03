@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 
 import { useEffect, useState } from "react"
@@ -15,12 +14,9 @@ import { backendApi } from "../../constant/backendApi"
 import ReviewModal from "../../components/ReviewModal"
 import { addFavorateItem, removeFavorateItem } from "../../store/slices/favorateProductsSlice"
 import { addToCart } from "../../store/slices/cartSlice"
-// import SingleProductCarousal from "../components/SingleProductCarousal"
-// import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import AliceCarousel from "react-alice-carousel"
 import 'react-alice-carousel/lib/alice-carousel.css';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 
@@ -70,7 +66,7 @@ const SingleProduct = () => {
         },
         size: size,
         color: color,
-        quantity: quantity ? quantity : 1,
+        quantity: quantity,
     }
 
     const AddToCart = (data) => {
@@ -85,7 +81,6 @@ const SingleProduct = () => {
             }
         } catch (error) {
             console.log(error);
-
         }
 
     }
@@ -191,8 +186,8 @@ const SingleProduct = () => {
 
                                 </div>
                                 <p className="leading-relaxed">{product.description}</p>
-                                <div className="lg:flex md:flex sm:flex gap-3 flex pb-5 border-b-2 border-gray-200 mb-5">
-                                    <div className="flex gap-5 items-center">
+                                <div className="lg:flex  lg:flex-row md:flex  md:flex-row sm:flex  sm:flex-row  flex flex-col gap-5 mt-6 pb-5 border-b-2 border-gray-200 mb-5">
+                                    <div className="flex items-center">
                                         <span className="mr-3">Color</span>
                                         <div className="flex gap-3">
                                             {["Red", "Blue", "Black", "Yellow"].map((data, i) =>
@@ -215,7 +210,7 @@ const SingleProduct = () => {
                                             }}>
                                         </button> */}
                                     </div>
-                                    <div className="flex gap-5 items-center">
+                                    <div className="flex items-center">
                                         <span className="mr-3">Size</span>
                                         <div className="relative">
                                             <select
@@ -232,7 +227,7 @@ const SingleProduct = () => {
 
                                         </div>
                                     </div>
-                                    <div className="flex gap-5 items-center">
+                                    <div className="flex items-center">
                                         <span className="mr-3">Quantity</span>
                                         <div className="relative">
                                             <div className=" flex gap-3 items-center">
@@ -280,7 +275,7 @@ const SingleProduct = () => {
                             <button onClick={() => setActive(1)}>Product Details </button>
                             <button onClick={() => setActive(2)}>Product Reviews </button>
                         </div>
-                        <div className="overflow-y-auto p-5">
+                        <div className="overflow-y-auto py-5">
                             {active === 1 ? (
                                 <div>
                                     <p>
