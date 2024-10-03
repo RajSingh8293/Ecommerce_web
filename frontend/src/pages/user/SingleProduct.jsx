@@ -70,7 +70,7 @@ const SingleProduct = () => {
         },
         size: size,
         color: color,
-        quantity: quantity,
+        quantity: quantity ? quantity : 1,
     }
 
     const AddToCart = (data) => {
