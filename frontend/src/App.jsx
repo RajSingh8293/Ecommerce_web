@@ -51,12 +51,12 @@ function App() {
     const [stripeKey, setStripeKey] = useState("")
   const stripePromise = loadStripe(stripeKey);
 
-    let axiosConfig = {
-    withCredentials: true,
-  }
+  //   let axiosConfig = {
+  //   withCredentials: true,
+  // }
   const getStripePublicKey = async () => {
     try {
-      const { data } = await axios.get(`${backendApi}/api/v1/stripepublickey`, axiosConfig);
+      const { data } = await axios.get(`${backendApi}/api/v1/stripepublickey`);
       console.log("data :", data);
 
       if (data.success) {
