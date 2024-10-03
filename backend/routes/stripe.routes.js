@@ -5,6 +5,6 @@ import { paymentProcessController, stripePublicKey } from "../controllers/stripe
 const router = express.Router();
 
 router.post("/payment/process", isAuthenticated, paymentProcessController);
-router.get("/stripepublickey", isAuthenticated, stripePublicKey);
+router.get("/stripepublickey", stripePublicKey);
 
 export default router;
